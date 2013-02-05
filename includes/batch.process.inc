@@ -8,11 +8,11 @@ class UoMNewspaperBatchPreprocessor extends IslandoraBookBatch {
   /**
    * Should be able to find all that we need just from the unit.xml files.
    */
-  protected get_pattern() {
-    return 'unit\.xml';
+  protected static function get_pattern() {
+    return '/unit\.xml/';
   }
 
-  protected re_group(&$files, $components, $relative_uri, $file_info) {
+  protected function re_group(&$files, $components, $relative_uri, $file_info) {
     // TODO: Use the three last components (representing the date) as the base name
     $base = implode('-', array_slice($components, -3));
     $files[$base]['.'][$file_info->name] = $file_info;
@@ -25,17 +25,18 @@ class UoMNewspaperPaperObject extends IslandoraFlatBatchObject {
   }
 
   private function get_unit() {
-    static $unit = NULL;
+    $unit = NULL;
 
     if ($unit === NULL) {
       $unit = simplexml_load_file($this->object_info['.']['unit']->uri);
+      $unit->registerXPathNamespace('ia', 'http://www.iarchives.com/schema/2002/export');
     }
 
     return $unit;
   }
 
-  protected function get_children(IslandoraTuque $connection) {
-    // TODO: Iterate over page entries in unit.xml, creating children.
+  public function get_children(IslandoraTuque $connection) {
+    // Iterate over page entries in unit.xml, creating children.
     $unit = $this->get_unit();
 
     $children = array();
@@ -44,27 +45,64 @@ class UoMNewspaperPaperObject extends IslandoraFlatBatchObject {
     $unit_dirname = drupal_dirname($this->object_info['.']['unit']->uri);
 
     $i = 0;
-    foreach ($unit->pages as $page_ref) {
+    foreach ($unit->pages->{'page-ref'} as $page_ref) {
       // Synthesize the "object_info" structure.
-      $children[] = new UoMNewspaperPageObject($connection, $this->id, $i++, array(
+      $page_obj = new stdClass();
+      $page_obj->uri = $unit_dirname . '/' . $page_ref['href'];
+      $page_obj->filename = pathinfo($page_obj->uri, PATHINFO_BASENAME);
+      $page_obj->name = pathinfo($page_obj->uri, PATHINFO_FILENAME);
+
+      $page_object_info = array(
         '.' => array(
-          'page' => $unit_dirname . '/' . $page_ref['href'],
+          'page' => $page_obj,
         ),
-      ));
+      );
+      $children[] = new UoMNewspaperPageObject($connection, $this->id, $i++,
+        $page_object_info, $this->preprocessor_parameters);
     }
 
     return $children;
   }
 
   protected function get_mods() {
-    // TODO: Transform the unit.xml to MODS (if we don't already have MODS).
-    // TODO: Fall-back to parent implementation.
+    // Process the unit.xml into MODS (if we don't already have MODS).
+    if (!isset($this['MODS'])) {
+      $mods = $this->constructDatastream('MODS', 'M');
+      $mods->mimetype = 'text/xml';
+      $mods->label = 'MODS Record';
+      $mods->content = static::run_xsl_transform(array(
+        'input' => file_get_contents($this->object_info['.']['unit']->uri),
+        'xsl' => drupal_get_path('module', 'uofm_newspaper_batch') . '/transforms/iarchive_to_mods.xsl',
+      ));
+
+      if (isset($mods->content)) {
+        $this->ingestDatastream($mods);
+      }
+    }
+
+    // Allow fall-back to the parent implementation.
+    return parent::get_mods();
   }
 
-  protected function batch_process() {
+  public function batch_process() {
+    // Should add the "unit.xml" as "unit".
     $parent_return = parent::batch_process();
 
-    // TODO: Add the article XML entries onto the newspaper object.
+    // Add the article XML entries onto the newspaper object.
+    $articles = $this->get_unit()->xpath('/ia:unit/ia:articles/ia:article-ref');
+    if ($articles) {
+      $unit_dir = dirname($this->object_info['.']['unit']->uri);
+      foreach(array_values($articles) as $article) {
+        $article_file = $unit_dir . '/' . $article['href'];
+        $article_number = pathinfo($article_file, PATHINFO_FILENAME);
+        $article_ds = $this->constructDatastream("ARTICLE-$article_number", 'M');
+        $article_ds->label = "Article $article_number";
+        $article_ds->mimetype = 'application/xml';
+        $article_ds->setContentFromFile($article_file, FALSE);
+
+        $this->ingestDatastream($article_ds);
+      }
+    }
 
     return ISLANDORA_BATCH_STATE__DONE;
   }
@@ -103,7 +141,8 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
     return array();
   }
 
-  public batch_process() {
+  public function batch_process() {
+    // Should add the page.xml as "page".
     $parent_return = parent::batch_process();
 
     // Grab the TIFF (as OBJ).
@@ -112,15 +151,18 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
     $this->add_pdf();
     // Grab the whatever_sm.jpg version (as JPG)
     $this->add_sm_jpg();
+    // Translate the page.xml to hOCR.
+    $this->add_hocr();
 
     // XXX: Needs to be made to use the shared image derivative module/library
     //   (didn't actually exist at the time of writing).
     // Generate the JP2 and TN.
     $uploaded_file = $this->find_tiff();
+    $base_name = str_replace(':', '-', $this->id);
     if ($uploaded_file) {
+      module_load_include('inc', 'islandora_large_image', 'includes/islandora_large_image.process');
       $jp2 = islandora_large_image_create_JP2_derivative($this, $uploaded_file, $base_name);
       $tn = islandora_large_image_create_TN_derivative($this, $uploaded_file, $base_name);
-      file_unmanaged_delete($uploaded_file);
     }
 
     return ISLANDORA_BATCH_STATE__DONE;
@@ -147,7 +189,7 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
   }
 
   private function find_tiff() {
-    static $path = NULL;
+    $path = NULL;
 
     if ($path === NULL) {
       // Get the URI of the page.xml
@@ -156,7 +198,7 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
       $components = explode('/', $page_uri);
 
       // Add in component for TIFF directory
-      array_splice($components, -6, 0, 'TIFFS');
+      array_splice($components, -5, 0, 'TIFFS');
       // Change "pages" to "Archival_Images"
       array_splice($components, -2, 1, 'Archival_Images');
 
@@ -191,7 +233,7 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
   }
 
   private function find_pdf() {
-    static $path = NULL;
+    $path = NULL;
 
     if ($path === NULL) {
       // Get the URI of the page.xml
@@ -233,7 +275,7 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
   }
 
   private function find_sm_jpg() {
-    static $path = NULL;
+    $path = NULL;
 
     if ($path === NULL) {
       // Get the URI of the page.xml
@@ -254,8 +296,15 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
     return $path;
   }
 
+  /**
+   * They want the label to be the page number.
+   */
   protected function get_title() {
-    static $page_number = NULL;
+    return $this->get_page_number();
+  }
+
+  protected function get_page_number() {
+    $page_number = NULL;
     // Return the page/sequence number.
     if ($page_number === NULL) {
       $p = $this->get_page()->xpath('/ia:page/ia:header-item[@name="page"]');
@@ -267,6 +316,27 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
     return $page_number;
   }
 
+
+  protected function add_hocr() {
+    // Process the page.xml into MODS (if we don't already have MODS).
+    if (!isset($this['HOCR'])) {
+      $hocr = $this->constructDatastream('HOCR', 'M');
+      $hocr->mimetype = 'text/xml';
+      $hocr->label = 'HOCR Record';
+      $hocr->content = static::run_xsl_transform(array(
+            'input' => file_get_contents($this->object_info['.']['page']->uri),
+            'xsl' => drupal_get_path('module', 'uofm_newspaper_batch') . '/transforms/iarchive_to_hocr.xsl',
+            ));
+
+      if (isset($hocr->content)) {
+        $this->ingestDatastream($hocr);
+      }
+    }
+
+    // Allow fall-back to the parent implementation.
+    return $this['HOCR'];
+  }
+
   protected function get_mods() {
     // Process the page.xml into MODS (if we don't already have MODS).
     if (!isset($this['MODS'])) {
@@ -274,9 +344,9 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
       $mods->mimetype = 'text/xml';
       $mods->label = 'MODS Record';
       $mods->content = static::run_xsl_transform(array(
-        'input' => file_get_contents(),
-        'xsl' => drupal_get_path('module', 'uofm_newspaper_batch') . '/transforms/iarchive_to_mods.xsl',
-      ));
+            'input' => file_get_contents($this->object_info['.']['page']->uri),
+            'xsl' => drupal_get_path('module', 'uofm_newspaper_batch') . '/transforms/iarchive_to_mods.xsl',
+            ));
 
       if (isset($mods->content)) {
         $this->ingestDatastream($mods);
@@ -291,7 +361,7 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
    * Get the page XML, parsed with SimpleXML.
    */
   private function get_page() {
-    static $page = NULL;
+    $page = NULL;
 
     if ($page === NULL) {
       $page = simplexml_load_file($this->object_info['.']['page']->uri);
@@ -299,6 +369,13 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
     }
 
     return $page;
+  }
+
+  public function add_relationships() {
+    $this->models = "islandora:newspaperPageCModel";
+    $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isPageOf', $this->parent_id);
+    $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isSequenceNumber', $this->get_page_number(), TRUE);
+    $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isPageNumber', $this->get_page_number(), TRUE);
   }
 }
 

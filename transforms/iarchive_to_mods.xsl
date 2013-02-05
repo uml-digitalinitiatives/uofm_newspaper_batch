@@ -17,7 +17,7 @@
       <originInfo>
         <issuance>continuing</issuance>
         <frequency authority="marcfrequency">Daily</frequency>
-        <xsl:apply-template mode="origin"/>
+        <xsl:apply-templates mode="origin"/>
       </originInfo>
 
       <relatedItem type="host">
@@ -42,10 +42,10 @@
   <xsl:template match="ia:header-item[@name='volume']" mode="title">
     <partNumber>
       <xsl:text>vol </xsl:text>
-      <xsl:value-of select="@volume"/>
-      <xsl:if test="../ia:header-item[@name='issue']">
+      <xsl:value-of select="@value"/>
+      <xsl:if test="../ia:header-item[@name='number']">
         <xsl:text> no </xsl:text>
-        <xsl:value-of select="../ia:header-item[@name='issue']/@value"/>
+        <xsl:value-of select="../ia:header-item[@name='number']/@value"/>
 
         <!-- only present in pages -->
         <xsl:if test="../ia:header-item[@name='page']">
@@ -71,12 +71,19 @@
     </titleInfo>
   </xsl:template>
 
-
-  <xsl:template match="ia:header-item[@name='volume' or @name='issue']" mode="related_part">
+  <xsl:template match="ia:header-item[@name='volume']" mode="related_part">
     <detail>
       <xsl:attribute name="type">
         <xsl:value-of select="@name"/>
       </xsl:attribute>
+      <number>
+        <xsl:value-of select="@value"/>
+      </number>
+    </detail>
+  </xsl:template>
+
+  <xsl:template match="ia:header-item[@name='number']" mode="related_part">
+    <detail type="issue">
       <number>
         <xsl:value-of select="@value"/>
       </number>
@@ -93,13 +100,13 @@
 
   <xsl:template match="ia:header-item[@name='date']" mode="related_part">
     <date>
-      <xsl:value-of select="@value"/>
+      <xsl:value-of select="text()"/>
     </date>
   </xsl:template>
 
   <xsl:template match="ia:header-item[@name='date']" mode="origin">
     <dateIssued>
-      <xsl:value-of select="@value"/>
+      <xsl:value-of select="text()"/>
     </dateIssued>
   </xsl:template>
 
@@ -110,6 +117,7 @@
 
   <!-- Delete text which isn't handled explicitly. -->
   <xsl:template match="text()"/>
+  <xsl:template match="text()" mode="title"/>
   <xsl:template match="text()" mode="related"/>
   <xsl:template match="text()" mode="related_part"/>
   <xsl:template match="text()" mode="origin"/>
