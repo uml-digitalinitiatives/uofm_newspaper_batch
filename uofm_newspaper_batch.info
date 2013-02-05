@@ -1,0 +1,10 @@
+name = UofM Newspaper Batch
+description = "Batch ingest objects"
+package = Islandora
+version = 7.x-dev
+core = 7.x
+dependencies[] = islandora_batch
+dependencies[] = islandora_large_image
+files[] = includes/batch.process.inc
+php = 5.3
+
