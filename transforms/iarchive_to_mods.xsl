@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsl:stylesheet version="1.0"
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:ia="http://www.iarchives.com/schema/2002/export"
+  xmlns="http://www.loc.gov/mods/v3"
+  exclude-result-prefixes="ia">
+
+  <xsl:output method='xml' version='1.0' encoding='utf-8' indent='yes'/>
+
+  <!-- A page is a page... -->
+  <xsl:template match="/">
+    <mods version="3.4">
+      <titleInfo>
+        <xsl:apply-templates mode="title"/>
+      </titleInfo>
+
+      <originInfo>
+        <issuance>continuing</issuance>
+        <frequency authority="marcfrequency">Daily</frequency>
+        <xsl:apply-template mode="origin"/>
+      </originInfo>
+
+      <relatedItem type="host">
+        <xsl:apply-templates mode="related"/>
+        <part>
+          <xsl:apply-templates mode="related_part"/>
+        </part>
+      </relatedItem>
+    </mods>
+  </xsl:template>
+
+  <xsl:template match="ia:header-item[@name='publication-title']" mode="title">
+    <title>
+      <xsl:value-of select="text()"/>
+      <xsl:if test="../ia:header-item[@name='date']">
+        <xsl:text>: </xsl:text>
+        <xsl:value-of select="../ia:header-item[@name='date']/text()"/>
+      </xsl:if>
+    </title>
+  </xsl:template>
+
+  <xsl:template match="ia:header-item[@name='volume']" mode="title">
+    <partNumber>
+      <xsl:text>vol </xsl:text>
+      <xsl:value-of select="@volume"/>
+      <xsl:if test="../ia:header-item[@name='issue']">
+        <xsl:text> no </xsl:text>
+        <xsl:value-of select="../ia:header-item[@name='issue']/@value"/>
+
+        <!-- only present in pages -->
+        <xsl:if test="../ia:header-item[@name='page']">
+          <xsl:text> pg </xsl:text>
+          <xsl:value-of select="../ia:header-item[@name='page']/@value"/>
+        </xsl:if>
+      </xsl:if>
+    </partNumber>
+  </xsl:template>
+
+  <!-- Only present in "articles" -->
+  <xsl:template match="ia:header-item[@name='headline']" mode="title">
+    <subTitle>
+      <xsl:value-of select="text()"/>
+    </subTitle>
+  </xsl:template>
+
+  <xsl:template match="ia:header-item[@name='publication-title']" mode="related">
+    <titleInfo>
+      <title>
+        <xsl:value-of select="text()"/>
+      </title>
+    </titleInfo>
+  </xsl:template>
+
+
+  <xsl:template match="ia:header-item[@name='volume' or @name='issue']" mode="related_part">
+    <detail>
+      <xsl:attribute name="type">
+        <xsl:value-of select="@name"/>
+      </xsl:attribute>
+      <number>
+        <xsl:value-of select="@value"/>
+      </number>
+    </detail>
+  </xsl:template>
+
+  <xsl:template match="ia:header-item[@name='page']" mode="related_part">
+    <extent unit="pages">
+      <start>
+        <xsl:value-of select="@value"/>
+      </start>
+    </extent>
+  </xsl:template>
+
+  <xsl:template match="ia:header-item[@name='date']" mode="related_part">
+    <date>
+      <xsl:value-of select="@value"/>
+    </date>
+  </xsl:template>
+
+  <xsl:template match="ia:header-item[@name='date']" mode="origin">
+    <dateIssued>
+      <xsl:value-of select="@value"/>
+    </dateIssued>
+  </xsl:template>
+
+  <!-- Recurse by default. -->
+  <xsl:template match='*'>
+    <xsl:apply-templates/>
+  </xsl:template>
+
+  <!-- Delete text which isn't handled explicitly. -->
+  <xsl:template match="text()"/>
+  <xsl:template match="text()" mode="related"/>
+  <xsl:template match="text()" mode="related_part"/>
+  <xsl:template match="text()" mode="origin"/>
+</xsl:stylesheet>
