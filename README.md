@@ -20,20 +20,21 @@ IArchive Newspaper Ingester
 Scans for unit.xml files, and attempts to create newspapers from them. Some
 assumptions have been made in terms of folder structure: The tiffs are located
 in a separate directory at the same level as the "years"...  So something like:
-* year1/
-** month1/
-*** day1/
-**** unit.xml
-**** pages/
-***** page-id.xml
-* year2/
-  [...]
-* TIFFS/
-** year1/
-*** month1/
-**** day1/
-***** Archival_Images/
-****** page-id.tif
+* "target" directory
+    * year1/
+        * month1/
+            * day1/
+                * unit.xml
+                * pages/
+                    * page-id.xml
+    * year2/
+      [...]
+    * TIFFS/
+        * year1/
+            * month1/
+                * day1/
+                    * Archival_Images/
+                        * page-id.tif
 
 
 REQUIREMENTS
