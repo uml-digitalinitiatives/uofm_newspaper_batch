@@ -19,6 +19,28 @@ class UoMNewspaperBatchPreprocessor extends IslandoraBookBatch {
   }
 }
 
+/**
+ * Fix the couple date elements into a format parsable by our GSearch XSLT.
+ *
+ * @param SimpleXMLElement $mods
+ *   A SimpleXMLElement containing a MODS record.
+ */
+function uom_newspaper_batch_fix_dates(SimpleXMLElement $mods) {
+  // The fields in to change are /m:mods/m:originInfo/m:dateIssued and
+  //   /m:mods/m:relatedItem[@type="host"]/m:part/m:date
+  $mods->registerXPathNamespace('m', 'http://www.loc.gov/mods/v3');
+  $to_reformat = $mods->xpath('/m:mods/m:originInfo/m:dateIssued |
+    /m:mods/m:relatedItem[@type="host"]/m:part/m:date');
+  if ($to_reformat) {
+    foreach ($to_reformat as $date) {
+      $timestamp = strtotime((string)$date);
+      $time_string = date('Y-m-d', $timestamp);
+      $date->{0} = $time_string;
+      $date['encoding'] = 'iso8601';
+    }
+  }
+}
+
 class UoMNewspaperPaperObject extends IslandoraFlatBatchObject {
   public function initial_batch_state() {
     return ISLANDORA_BATCH_STATE__NOT_READY;
@@ -70,10 +92,12 @@ class UoMNewspaperPaperObject extends IslandoraFlatBatchObject {
       $mods = $this->constructDatastream('MODS', 'M');
       $mods->mimetype = 'text/xml';
       $mods->label = 'MODS Record';
-      $mods->content = static::run_xsl_transform(array(
+      $mods_simplexml = new SimpleXMLElement(static::run_xsl_transform(array(
         'input' => file_get_contents($this->object_info['.']['unit']->uri),
         'xsl' => drupal_get_path('module', 'uofm_newspaper_batch') . '/transforms/iarchive_to_mods.xsl',
-      ));
+      )));
+      uom_newspaper_batch_fix_dates($mods_simplexml);
+      $mods->content = $mods_simplexml->saveXML();
 
       if (isset($mods->content)) {
         $this->ingestDatastream($mods);
@@ -340,13 +364,15 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
   protected function get_mods() {
     // Process the page.xml into MODS (if we don't already have MODS).
     if (!isset($this['MODS'])) {
-      $mods = $this->constructDatastream('MODS', 'X');
+      $mods = $this->constructDatastream('MODS', 'M');
       $mods->mimetype = 'text/xml';
       $mods->label = 'MODS Record';
-      $mods->content = static::run_xsl_transform(array(
-            'input' => file_get_contents($this->object_info['.']['page']->uri),
-            'xsl' => drupal_get_path('module', 'uofm_newspaper_batch') . '/transforms/iarchive_to_mods.xsl',
-            ));
+      $mods_simplexml = new SimpleXMLElement(static::run_xsl_transform(array(
+        'input' => file_get_contents($this->object_info['.']['page']->uri),
+        'xsl' => drupal_get_path('module', 'uofm_newspaper_batch') . '/transforms/iarchive_to_mods.xsl',
+      )));
+      uom_newspaper_batch_fix_dates($mods_simplexml);
+      $mods->content = $mods_simplexml->saveXML();
 
       if (isset($mods->content)) {
         $this->ingestDatastream($mods);
