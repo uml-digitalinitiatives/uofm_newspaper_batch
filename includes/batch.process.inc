@@ -20,6 +20,21 @@ class UoMNewspaperBatchPreprocessor extends IslandoraBookBatch {
 }
 
 /**
+ * Attempt to reparse a string into a more easily usable format.
+ *
+ * @param string $date_string_in
+ *   A date we will pass to strtotime() to try to get a timestamp.
+ *
+ * @return string
+ *   A string of the format YYYY-MM-DD.
+ */
+function uofm_newspaper_batch_fix_date($date_string_in) {
+  $timestamp = strtotime((string)$date_string_in);
+  $date_string_out = date('Y-m-d', $timestamp);
+  return $date_string_out;
+}
+
+/**
  * Fix the couple date elements into a format parsable by our GSearch XSLT.
  *
  * @param SimpleXMLElement $mods
@@ -33,9 +48,7 @@ function uom_newspaper_batch_fix_dates(SimpleXMLElement $mods) {
     /m:mods/m:relatedItem[@type="host"]/m:part/m:date');
   if ($to_reformat) {
     foreach ($to_reformat as $date) {
-      $timestamp = strtotime((string)$date);
-      $time_string = date('Y-m-d', $timestamp);
-      $date->{0} = $time_string;
+      $date->{0} = uofm_newspaper_batch_fix_date((string)$date);
       $date['encoding'] = 'iso8601';
     }
   }
