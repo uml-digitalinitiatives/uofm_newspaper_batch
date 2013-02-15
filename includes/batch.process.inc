@@ -197,7 +197,7 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
     $uploaded_file = $this->find_tiff();
     $base_name = str_replace(':', '-', $this->id);
     if ($uploaded_file) {
-      module_load_include('inc', 'islandora_large_image', 'includes/islandora_large_image.process');
+      module_load_include('inc', 'islandora_large_image', 'includes/derivatives');
       $jp2 = islandora_large_image_create_JP2_derivative($this, $uploaded_file, $base_name);
       $tn = islandora_large_image_create_TN_derivative($this, $uploaded_file, $base_name);
     }
@@ -412,9 +412,8 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
 
   public function add_relationships() {
     $this->models = "islandora:newspaperPageCModel";
-    $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isPageOf', $this->parent_id);
+    $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isMemberOf', $this->parent_id);
     $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isSequenceNumber', $this->get_page_number(), TRUE);
-    $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isPageNumber', $this->get_page_number(), TRUE);
   }
 }
 
