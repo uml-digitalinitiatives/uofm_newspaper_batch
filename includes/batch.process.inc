@@ -412,7 +412,7 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
 
   public function add_relationships() {
     $this->models = "islandora:newspaperPageCModel";
-    $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isMemberOf', $this->parent_id);
+    $this->relationships->add(FEDORA_RELS_EXT_URI, 'isMemberOf', $this->parent_id);
     $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isSequenceNumber', $this->get_page_number(), TRUE);
   }
 }

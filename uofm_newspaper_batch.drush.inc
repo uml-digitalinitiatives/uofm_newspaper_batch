@@ -65,7 +65,7 @@ function drush_uofm_newspaper_batch_preprocess() {
     $parameters['content_models'] = explode(',', $content_models);
   }
   else {
-    $parameters['content_models'] = array('islandora:newspaperIssueCModel');
+    $parameters['content_models'] = array('islandora:newspaperCModel');
   }
 
   $preprocessor = new UoMNewspaperBatchPreprocessor($connection, $parameters);
