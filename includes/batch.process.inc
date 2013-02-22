@@ -225,10 +225,9 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
     return $this['OBJ'];
   }
 
+  private $tiff_path = NULL;
   private function find_tiff() {
-    $path = NULL;
-
-    if ($path === NULL) {
+    if ($this->tiff_path === NULL) {
       // Get the URI of the page.xml
       $page_uri = $this->object_info['.']['page']->uri;
       // Break into components.
@@ -243,10 +242,10 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
       $xml = array_pop($components);
       $components[] = pathinfo($xml, PATHINFO_FILENAME) . '.tif';
 
-      $path = implode('/', $components);
+      $this->tiff_path = implode('/', $components);
     }
 
-    return $path;
+    return $this->tiff_path;
   }
 
   /**
@@ -360,11 +359,28 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
       $hocr = $this->constructDatastream('HOCR', 'M');
       $hocr->mimetype = 'text/xml';
       $hocr->label = 'HOCR Record';
-      $hocr->content = static::run_xsl_transform(array(
+
+      $base_hocr = static::run_xsl_transform(array(
         'input' => file_get_contents($this->object_info['.']['page']->uri),
         'xsl' => drupal_get_path('module', 'uofm_newspaper_batch') . '/transforms/iarchive_to_hocr.xsl',
       ));
 
+      list($width, $height) = getimagesize($this->find_tiff());
+
+      $xml = new SimpleXMLElement($base_hocr);
+      $xml->registerXPathNamespace('x', 'http://www.w3.org/1999/xhtml');
+      $pages = $xml->xpath('/x:html/x:body/x:div[@class="ocr_page"][1]');
+      if ($pages) {
+        // Grab the page.
+        $page = reset($pages);
+        $page['title'] = format_string('image "!image"; bbox 0 0 !width !height', array(
+          '!image' => $this->find_tiff(),
+          '!width' => $width,
+          '!height' => $height,
+        ));
+      }
+
+      $hocr->content = $xml->asXML();
       if (isset($hocr->content)) {
         $this->ingestDatastream($hocr);
       }
