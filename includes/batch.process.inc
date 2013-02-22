@@ -356,10 +356,10 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
 
   protected function add_hocr() {
     // Process the page.xml into MODS (if we don't already have MODS).
-    if (!isset($this['OCR'])) {
-      $hocr = $this->constructDatastream('OCR', 'M');
+    if (!isset($this['HOCR'])) {
+      $hocr = $this->constructDatastream('HOCR', 'M');
       $hocr->mimetype = 'text/xml';
-      $hocr->label = 'OCR Record';
+      $hocr->label = 'HOCR Record';
       $hocr->content = static::run_xsl_transform(array(
         'input' => file_get_contents($this->object_info['.']['page']->uri),
         'xsl' => drupal_get_path('module', 'uofm_newspaper_batch') . '/transforms/iarchive_to_hocr.xsl',
@@ -370,8 +370,7 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
       }
     }
 
-    // Allow fall-back to the parent implementation.
-    return $this['OCR'];
+    return $this['HOCR'];
   }
 
   protected function get_mods() {
