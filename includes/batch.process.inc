@@ -129,7 +129,7 @@ class UoMNewspaperPaperObject extends IslandoraFlatBatchObject {
     $articles = $this->get_unit()->xpath('/ia:unit/ia:articles/ia:article-ref');
     if ($articles) {
       $unit_dir = dirname($this->object_info['.']['unit']->uri);
-      foreach(array_values($articles) as $article) {
+      foreach (array_values($articles) as $article) {
         $article_file = $unit_dir . '/' . $article['href'];
         $article_number = pathinfo($article_file, PATHINFO_FILENAME);
         $article_ds = $this->constructDatastream("ARTICLE-$article_number", 'M');
@@ -427,8 +427,10 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
 
   public function add_relationships() {
     $this->models = "islandora:newspaperPageCModel";
+    // @todo Add hasLanguage?
     $this->relationships->add(FEDORA_RELS_EXT_URI, 'isMemberOf', $this->parent_id);
+    $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isPageOf', $this->parent_id);
     $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isSequenceNumber', $this->get_page_number(), TRUE);
+    $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isPageNumber', $this->get_page_number(), TRUE);
   }
 }
-
