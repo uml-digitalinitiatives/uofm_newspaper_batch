@@ -38,7 +38,7 @@ function uofm_newspaper_batch_drush_command() {
       ),
       'parent_relationship_pred' => array(
         'description' => 'The predicate of the relationship to the parent. ' .
-          'Defaults to "isIssueOf".',
+          'Defaults to "isMemberOf".',
         'value' => 'optional',
       ),
     ),
@@ -55,8 +55,8 @@ function drush_uofm_newspaper_batch_preprocess() {
     'type' => 'directory',
     'target' => drush_get_option('target'),
     'parent' => drush_get_option('parent', 'islandora:newspaperCollection'),
-    'parent_relationship_uri' => drush_get_option('parent_relationship_uri', 'http://islandora.ca/ontology/relsext#'),
-    'parent_relationship_pred' => drush_get_option('parent_relationship_pred', 'isIssueOf'),
+    'parent_relationship_uri' => drush_get_option('parent_relationship_uri', 'info:fedora/fedora-system:def/relations-external#'),
+    'parent_relationship_pred' => drush_get_option('parent_relationship_pred', 'isMemberOf'),
     'wait_for_metadata' => FALSE,
     'directory_dedup' => FALSE,
   );
