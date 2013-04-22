@@ -190,6 +190,7 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
     $this->add_sm_jpg();
     // Translate the page.xml to hOCR.
     $this->add_hocr();
+    $this->add_ocr();
 
     // XXX: Needs to be made to use the shared image derivative module/library
     //   (didn't actually exist at the time of writing).
@@ -373,7 +374,7 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
       if ($pages) {
         // Grab the page.
         $page = reset($pages);
-        $page['title'] = format_string('image "!image"; bbox 0 0 !width !height', array(
+        $page['title'] = format_string('image "!image"; bbox 0 0 !width !height; ppageno 0', array(
           '!image' => $this->find_tiff(),
           '!width' => $width,
           '!height' => $height,
@@ -387,6 +388,31 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
     }
 
     return $this['HOCR'];
+  }
+
+  protected function add_ocr() {
+    // Process the page.xml into MODS (if we don't already have MODS).
+    if (!isset($this['OCR'])) {
+      $ocr = $this->constructDatastream('OCR', 'M');
+      $ocr->mimetype = 'text/plain';
+      $ocr->label = 'OCR Record';
+
+      $base_hocr = static::run_xsl_transform(array(
+        'input' => file_get_contents($this->object_info['.']['page']->uri),
+        'xsl' => drupal_get_path('module', 'uofm_newspaper_batch') . '/transforms/iarchive_to_hocr.xsl',
+      ));
+
+      $ocr->content = static::run_xsl_transform(array(
+        'input' => $base_hocr,
+        'xsl' => drupal_get_path('module', 'uofm_newspaper_batch') . '/transforms/XML_text_nodes_to_solr.xslt',
+      ));
+
+      if (isset($ocr->content)) {
+        $this->ingestDatastream($ocr);
+      }
+    }
+
+    return $this['OCR'];
   }
 
   protected function get_mods() {
