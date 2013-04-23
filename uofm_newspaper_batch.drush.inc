@@ -21,6 +21,10 @@ function uofm_newspaper_batch_drush_command() {
         'description' => 'The target to directory to scan.',
         'required' => TRUE,
       ),
+      'namespace' => array(
+        'description' => 'The namespace into which to ingest.',
+        'value' => 'optional',
+      ),
       'content_models' => array(
         'description' => 'A comma-separated list of content models to assign ' .
           'to the objects. Only applies to the "book" level object.',
@@ -59,6 +63,7 @@ function drush_uofm_newspaper_batch_preprocess() {
     'parent_relationship_pred' => drush_get_option('parent_relationship_pred', 'isMemberOf'),
     'wait_for_metadata' => FALSE,
     'directory_dedup' => FALSE,
+    'namespace' => drush_get_option('namespace', NULL),
   );
 
   if ($content_models = drush_get_option('content_models', FALSE)) {
