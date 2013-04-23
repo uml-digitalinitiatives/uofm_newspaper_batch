@@ -332,13 +332,6 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
     return $path;
   }
 
-  /**
-   * They want the label to be the page number.
-   */
-  protected function get_title() {
-    return $this->get_page_number();
-  }
-
   protected function get_page_number() {
     $page_number = NULL;
     // Return the page/sequence number.
