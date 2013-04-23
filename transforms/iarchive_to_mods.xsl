@@ -14,6 +14,8 @@
         <xsl:apply-templates mode="title"/>
       </titleInfo>
 
+      <typeOfResource>newspaper</typeOfResource>
+
       <originInfo>
         <issuance>continuing</issuance>
         <frequency authority="marcfrequency">Daily</frequency>
