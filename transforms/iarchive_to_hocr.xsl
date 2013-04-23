@@ -12,7 +12,12 @@
     <html>
       <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-        <meta name="ocr-system" content="iarchive, transformed to be hOCR-like"/>
+        <xsl:comment>
+          XXX: Note that this would better be something like: "iarchive,
+          transformed to be hOCR-like"...  Our current validation requires
+          differently.
+        </xsl:comment>
+        <meta name="ocr-system" content="tesseract 3.02.02"/>
         <meta name="ocr-capabilities" content="ocr_page ocrx_word"/>
       </head>
 
