@@ -397,7 +397,7 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
       $mods->mimetype = 'text/xml';
       $mods->label = 'MODS Record';
       $mods->content = static::run_xsl_transform(array(
-        'input' => file_get_contents($this->object_info['.']['unit']->uri),
+        'input' => file_get_contents($this->object_info['.']['page']->uri),
         'xsl' => drupal_get_path('module', 'uofm_newspaper_batch') . '/transforms/iarchive_to_mods.xsl',
         'php_functions' => array(
           'uofm_newspaper_batch_fix_date',
