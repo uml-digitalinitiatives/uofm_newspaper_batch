@@ -34,26 +34,6 @@ function uofm_newspaper_batch_fix_date($date_string_in) {
   return $date_string_out;
 }
 
-/**
- * Fix the couple date elements into a format parsable by our GSearch XSLT.
- *
- * @param SimpleXMLElement $mods
- *   A SimpleXMLElement containing a MODS record.
- */
-function uom_newspaper_batch_fix_dates(SimpleXMLElement $mods) {
-  // The fields in to change are /m:mods/m:originInfo/m:dateIssued and
-  //   /m:mods/m:relatedItem[@type="host"]/m:part/m:date
-  $mods->registerXPathNamespace('m', 'http://www.loc.gov/mods/v3');
-  $to_reformat = $mods->xpath('/m:mods/m:originInfo/m:dateIssued |
-    /m:mods/m:relatedItem[@type="host"]/m:part/m:date');
-  if ($to_reformat) {
-    foreach ($to_reformat as $date) {
-      $date->{0} = uofm_newspaper_batch_fix_date((string)$date);
-      $date['encoding'] = 'iso8601';
-    }
-  }
-}
-
 class UoMNewspaperPaperObject extends IslandoraFlatBatchObject {
   public function initial_batch_state() {
     return ISLANDORA_BATCH_STATE__NOT_READY;
@@ -105,12 +85,14 @@ class UoMNewspaperPaperObject extends IslandoraFlatBatchObject {
       $mods = $this->constructDatastream('MODS', 'M');
       $mods->mimetype = 'text/xml';
       $mods->label = 'MODS Record';
-      $mods_simplexml = new SimpleXMLElement(static::run_xsl_transform(array(
+
+      $mods->content = static::run_xsl_transform(array(
         'input' => file_get_contents($this->object_info['.']['unit']->uri),
         'xsl' => drupal_get_path('module', 'uofm_newspaper_batch') . '/transforms/iarchive_to_mods.xsl',
-      )));
-      uom_newspaper_batch_fix_dates($mods_simplexml);
-      $mods->content = $mods_simplexml->saveXML();
+        'php_functions' => array(
+          'uofm_newspaper_batch_fix_date',
+        ),
+      ));
 
       if (isset($mods->content)) {
         $this->ingestDatastream($mods);
@@ -397,7 +379,7 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
 
       $ocr->content = static::run_xsl_transform(array(
         'input' => $base_hocr,
-        'xsl' => drupal_get_path('module', 'uofm_newspaper_batch') . '/transforms/XML_text_nodes_to_solr.xslt',
+        'xsl' => drupal_get_path('module', 'uofm_newspaper_batch') . '/transforms/flatten_xml_text_nodes.xslt',
       ));
 
       if (isset($ocr->content)) {
@@ -414,12 +396,13 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
       $mods = $this->constructDatastream('MODS', 'M');
       $mods->mimetype = 'text/xml';
       $mods->label = 'MODS Record';
-      $mods_simplexml = new SimpleXMLElement(static::run_xsl_transform(array(
-        'input' => file_get_contents($this->object_info['.']['page']->uri),
+      $mods->content = static::run_xsl_transform(array(
+        'input' => file_get_contents($this->object_info['.']['unit']->uri),
         'xsl' => drupal_get_path('module', 'uofm_newspaper_batch') . '/transforms/iarchive_to_mods.xsl',
-      )));
-      uom_newspaper_batch_fix_dates($mods_simplexml);
-      $mods->content = $mods_simplexml->saveXML();
+        'php_functions' => array(
+          'uofm_newspaper_batch_fix_date',
+        ),
+      ));
 
       if (isset($mods->content)) {
         $this->ingestDatastream($mods);
