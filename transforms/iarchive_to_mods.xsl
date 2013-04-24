@@ -40,7 +40,8 @@
         <xsl:value-of select="php:functionString('uofm_newspaper_batch_fix_date', ../ia:header-item[@name='date']/text())"/>
       </xsl:if>
       <xsl:if test="../ia:header-item[@name='page']">
-        <xsl:text> (Page </xsl:text>
+        <!-- The "page" item already contains the word "Page" -->
+        <xsl:text> (</xsl:text>
         <xsl:value-of select="../ia:header-item[@name='page']/text()"/>
         <xsl:text>)</xsl:text>
       </xsl:if>
