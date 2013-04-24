@@ -37,7 +37,7 @@
       <xsl:value-of select="text()"/>
       <xsl:if test="../ia:header-item[@name='date']">
         <xsl:text>, </xsl:text>
-        <xsl:value-of select="php:functionString('uom_newspaper_batch_fix_date', ../ia:header-item[@name='date']/text())"/>
+        <xsl:value-of select="php:functionString('uofm_newspaper_batch_fix_date', ../ia:header-item[@name='date']/text())"/>
       </xsl:if>
       <xsl:if test="../ia:header-item[@name='page']">
         <xsl:text> (Page </xsl:text>
@@ -108,13 +108,13 @@
 
   <xsl:template match="ia:header-item[@name='date']" mode="related_part">
     <date encoding="iso8601">
-      <xsl:value-of select="php:functionString('uom_newspaper_batch_fix_date', text())"/>
+      <xsl:value-of select="php:functionString('uofm_newspaper_batch_fix_date', text())"/>
     </date>
   </xsl:template>
 
   <xsl:template match="ia:header-item[@name='date']" mode="origin">
     <dateIssued encoding="iso8601">
-      <xsl:value-of select="php:functionString('uom_newspaper_batch_fix_date', text())"/>
+      <xsl:value-of select="php:functionString('uofm_newspaper_batch_fix_date', text())"/>
     </dateIssued>
   </xsl:template>
 
