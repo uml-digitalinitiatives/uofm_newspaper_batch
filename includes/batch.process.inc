@@ -103,6 +103,14 @@ class UoMNewspaperPaperObject extends IslandoraFlatBatchObject {
     return parent::get_mods();
   }
 
+  public function get_resources() {
+    return array(
+      'iarchive_file_path' => array(
+        $this->object_info['.']['unit']->uri,
+      ),
+    );
+  }
+
   public function batch_process() {
     // Should add the "unit.xml" as "unit".
     $parent_return = parent::batch_process();
@@ -434,5 +442,13 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
     $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isPageOf', $this->parent_id);
     $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isSequenceNumber', $this->get_page_number(), TRUE);
     $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isPageNumber', $this->get_page_number(), TRUE);
+  }
+
+  public function get_resources() {
+    return array(
+      'iarchive_file_path' => array(
+        $this->object_info['.']['page']->uri,
+      ),
+    );
   }
 }
