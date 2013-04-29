@@ -44,7 +44,14 @@ class UoMNewspaperPaperObject extends IslandoraFlatBatchObject {
 
     if ($unit === NULL) {
       $unit = simplexml_load_file($this->object_info['.']['unit']->uri);
-      $unit->registerXPathNamespace('ia', 'http://www.iarchives.com/schema/2002/export');
+      if ($unit) {
+        $unit->registerXPathNamespace('ia', 'http://www.iarchives.com/schema/2002/export');
+      }
+      else {
+        throw new Exception(t('Failed to parse XML "@file".', array(
+          '@file' => $this->object_info['.']['unit']->uri,
+        )));
+      }
     }
 
     return $unit;
@@ -429,7 +436,14 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
 
     if ($page === NULL) {
       $page = simplexml_load_file($this->object_info['.']['page']->uri);
-      $page->registerXPathNamespace('ia', 'http://www.iarchives.com/schema/2002/export');
+      if ($page) {
+        $page->registerXPathNamespace('ia', 'http://www.iarchives.com/schema/2002/export');
+      }
+      else {
+        throw new Exception(t('Failed to parse the XML file "@file".', array(
+          '@file' => $this->object_info['.']['page']->uri,
+        )));
+      }
     }
 
     return $page;
