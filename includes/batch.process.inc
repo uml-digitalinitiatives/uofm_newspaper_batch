@@ -209,7 +209,7 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
   /**
    * Add the tiff.
    *
-   * @return FedoraDatastream
+   * @return AbstractDatastream
    *   The datastream which has been added to this object.
    */
   protected function add_tiff() {
@@ -252,7 +252,7 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
   /**
    * Add the pdf.
    *
-   * @return FedoraDatastream
+   * @return AbstractDatastream
    *   The datastream which has been added to this object.
    */
   protected function add_pdf() {
@@ -294,7 +294,7 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
   /**
    * Add the sm_jpg.
    *
-   * @return FedoraDatastream
+   * @return AbstractDatastream
    *   The datastream which has been added to this object.
    */
   protected function add_sm_jpg() {
