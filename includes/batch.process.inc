@@ -180,7 +180,13 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
     $parent_return = parent::batch_process();
 
     // Grab the TIFF (as OBJ).
-    $this->add_tiff();
+    if(!$this->add_tiff()) {
+      watchdog('uofm_newspaper_batch', 'Missing TIFF in @id (@title). Not ingesting.', array(
+        '@id' => $this->id,
+        '@title' => $this->get_title(),
+      ), WATCHDOG_ERROR);
+      return ISLANDORA_BATCH_STATE__ERROR;
+    }
     // Grab the PDF for the page.
     $this->add_pdf();
     // Grab the whatever_sm.jpg version (as JPG)
@@ -211,19 +217,30 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
    */
   protected function add_tiff() {
     if (!isset($this['OBJ'])) {
-      // Add the tiff (if it isn't already on the object).
-      $obj = $this->constructDatastream('OBJ', 'M');
-      $obj->label = 'Newspaper page';
-      $obj->mimetype = 'image/tiff';
-      $obj->setContentFromFile($this->find_tiff(), FALSE);
+      $tiff_path = $this->find_tiff();
 
-      $this->ingestDatastream($obj);
+      if ($tiff_path) {
+        // Add the tiff (if it isn't already on the object).
+        $obj = $this->constructDatastream('OBJ', 'M');
+        $obj->label = 'Newspaper page';
+        $obj->mimetype = 'image/tiff';
+        $obj->setContentFromFile($tiff_path, FALSE);
+
+        $this->ingestDatastream($obj);
+      }
     }
 
     return $this['OBJ'];
   }
 
   private $tiff_path = NULL;
+  /**
+   * Get the path where the TIFF should be.
+   *
+   * @return string|bool
+   *   A string containing the path, or FALSE if there's no file at the given
+   *   path.
+   */
   private function find_tiff() {
     if ($this->tiff_path === NULL) {
       // Get the URI of the page.xml
@@ -240,7 +257,13 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
       $xml = array_pop($components);
       $components[] = pathinfo($xml, PATHINFO_FILENAME) . '.tif';
 
-      $this->tiff_path = implode('/', $components);
+      $tiff_path = implode('/', $components);
+      if (file_exists($tiff_path)) {
+        $this->tiff_path = $tiff_path;
+      }
+      else {
+        $this->tiff_path = FALSE;
+      }
     }
 
     return $this->tiff_path;
@@ -356,16 +379,17 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
         'xsl' => drupal_get_path('module', 'uofm_newspaper_batch') . '/transforms/iarchive_to_hocr.xsl',
       ));
 
-      list($width, $height) = getimagesize($this->find_tiff());
+      $tiff_path = $this->find_tiff();
 
       $xml = new SimpleXMLElement($base_hocr);
       $xml->registerXPathNamespace('x', 'http://www.w3.org/1999/xhtml');
       $pages = $xml->xpath('/x:html/x:body/x:div[@class="ocr_page"][1]');
-      if ($pages) {
+      if ($tiff_path && $pages) {
+        list($width, $height) = getimagesize($tiff_path);
         // Grab the page.
         $page = reset($pages);
         $page['title'] = format_string('image "!image"; bbox 0 0 !width !height; ppageno 0', array(
-          '!image' => $this->find_tiff(),
+          '!image' => $tiff_path,
           '!width' => $width,
           '!height' => $height,
         ));
