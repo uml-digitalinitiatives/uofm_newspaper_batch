@@ -2,6 +2,7 @@
 <xsl:stylesheet version="1.0"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:ia="http://www.iarchives.com/schema/2002/export"
+  xmlns:php="http://php.net/xsl"
   xmlns="http://www.loc.gov/mods/v3"
   exclude-result-prefixes="ia">
 
@@ -35,8 +36,14 @@
     <title>
       <xsl:value-of select="text()"/>
       <xsl:if test="../ia:header-item[@name='date']">
-        <xsl:text>: </xsl:text>
-        <xsl:value-of select="../ia:header-item[@name='date']/text()"/>
+        <xsl:text>, </xsl:text>
+        <xsl:value-of select="php:functionString('uofm_newspaper_batch_fix_date', ../ia:header-item[@name='date']/text())"/>
+      </xsl:if>
+      <xsl:if test="../ia:header-item[@name='page']">
+        <!-- The "page" item already contains the word "Page" -->
+        <xsl:text> (</xsl:text>
+        <xsl:value-of select="../ia:header-item[@name='page']/text()"/>
+        <xsl:text>)</xsl:text>
       </xsl:if>
     </title>
   </xsl:template>
@@ -101,14 +108,14 @@
   </xsl:template>
 
   <xsl:template match="ia:header-item[@name='date']" mode="related_part">
-    <date>
-      <xsl:value-of select="text()"/>
+    <date encoding="iso8601">
+      <xsl:value-of select="php:functionString('uofm_newspaper_batch_fix_date', text())"/>
     </date>
   </xsl:template>
 
   <xsl:template match="ia:header-item[@name='date']" mode="origin">
-    <dateIssued>
-      <xsl:value-of select="text()"/>
+    <dateIssued encoding="iso8601">
+      <xsl:value-of select="php:functionString('uofm_newspaper_batch_fix_date', text())"/>
     </dateIssued>
   </xsl:template>
 

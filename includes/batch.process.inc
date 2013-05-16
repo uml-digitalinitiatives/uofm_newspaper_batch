@@ -34,26 +34,6 @@ function uofm_newspaper_batch_fix_date($date_string_in) {
   return $date_string_out;
 }
 
-/**
- * Fix the couple date elements into a format parsable by our GSearch XSLT.
- *
- * @param SimpleXMLElement $mods
- *   A SimpleXMLElement containing a MODS record.
- */
-function uom_newspaper_batch_fix_dates(SimpleXMLElement $mods) {
-  // The fields in to change are /m:mods/m:originInfo/m:dateIssued and
-  //   /m:mods/m:relatedItem[@type="host"]/m:part/m:date
-  $mods->registerXPathNamespace('m', 'http://www.loc.gov/mods/v3');
-  $to_reformat = $mods->xpath('/m:mods/m:originInfo/m:dateIssued |
-    /m:mods/m:relatedItem[@type="host"]/m:part/m:date');
-  if ($to_reformat) {
-    foreach ($to_reformat as $date) {
-      $date->{0} = uofm_newspaper_batch_fix_date((string)$date);
-      $date['encoding'] = 'iso8601';
-    }
-  }
-}
-
 class UoMNewspaperPaperObject extends IslandoraFlatBatchObject {
   public function initial_batch_state() {
     return ISLANDORA_BATCH_STATE__NOT_READY;
@@ -64,7 +44,14 @@ class UoMNewspaperPaperObject extends IslandoraFlatBatchObject {
 
     if ($unit === NULL) {
       $unit = simplexml_load_file($this->object_info['.']['unit']->uri);
-      $unit->registerXPathNamespace('ia', 'http://www.iarchives.com/schema/2002/export');
+      if ($unit) {
+        $unit->registerXPathNamespace('ia', 'http://www.iarchives.com/schema/2002/export');
+      }
+      else {
+        throw new Exception(t('Failed to parse XML "@file".', array(
+          '@file' => $this->object_info['.']['unit']->uri,
+        )));
+      }
     }
 
     return $unit;
@@ -105,12 +92,14 @@ class UoMNewspaperPaperObject extends IslandoraFlatBatchObject {
       $mods = $this->constructDatastream('MODS', 'M');
       $mods->mimetype = 'text/xml';
       $mods->label = 'MODS Record';
-      $mods_simplexml = new SimpleXMLElement(static::run_xsl_transform(array(
+
+      $mods->content = static::run_xsl_transform(array(
         'input' => file_get_contents($this->object_info['.']['unit']->uri),
         'xsl' => drupal_get_path('module', 'uofm_newspaper_batch') . '/transforms/iarchive_to_mods.xsl',
-      )));
-      uom_newspaper_batch_fix_dates($mods_simplexml);
-      $mods->content = $mods_simplexml->saveXML();
+        'php_functions' => array(
+          'uofm_newspaper_batch_fix_date',
+        ),
+      ));
 
       if (isset($mods->content)) {
         $this->ingestDatastream($mods);
@@ -119,6 +108,14 @@ class UoMNewspaperPaperObject extends IslandoraFlatBatchObject {
 
     // Allow fall-back to the parent implementation.
     return parent::get_mods();
+  }
+
+  public function get_resources() {
+    return array(
+      'iarchive_file_path' => array(
+        $this->object_info['.']['unit']->uri,
+      ),
+    );
   }
 
   public function batch_process() {
@@ -397,7 +394,7 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
 
       $ocr->content = static::run_xsl_transform(array(
         'input' => $base_hocr,
-        'xsl' => drupal_get_path('module', 'uofm_newspaper_batch') . '/transforms/XML_text_nodes_to_solr.xslt',
+        'xsl' => drupal_get_path('module', 'uofm_newspaper_batch') . '/transforms/flatten_xml_text_nodes.xslt',
       ));
 
       if (isset($ocr->content)) {
@@ -414,12 +411,13 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
       $mods = $this->constructDatastream('MODS', 'M');
       $mods->mimetype = 'text/xml';
       $mods->label = 'MODS Record';
-      $mods_simplexml = new SimpleXMLElement(static::run_xsl_transform(array(
+      $mods->content = static::run_xsl_transform(array(
         'input' => file_get_contents($this->object_info['.']['page']->uri),
         'xsl' => drupal_get_path('module', 'uofm_newspaper_batch') . '/transforms/iarchive_to_mods.xsl',
-      )));
-      uom_newspaper_batch_fix_dates($mods_simplexml);
-      $mods->content = $mods_simplexml->saveXML();
+        'php_functions' => array(
+          'uofm_newspaper_batch_fix_date',
+        ),
+      ));
 
       if (isset($mods->content)) {
         $this->ingestDatastream($mods);
@@ -438,7 +436,14 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
 
     if ($page === NULL) {
       $page = simplexml_load_file($this->object_info['.']['page']->uri);
-      $page->registerXPathNamespace('ia', 'http://www.iarchives.com/schema/2002/export');
+      if ($page) {
+        $page->registerXPathNamespace('ia', 'http://www.iarchives.com/schema/2002/export');
+      }
+      else {
+        throw new Exception(t('Failed to parse the XML file "@file".', array(
+          '@file' => $this->object_info['.']['page']->uri,
+        )));
+      }
     }
 
     return $page;
@@ -451,5 +456,13 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
     $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isPageOf', $this->parent_id);
     $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isSequenceNumber', $this->get_page_number(), TRUE);
     $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isPageNumber', $this->get_page_number(), TRUE);
+  }
+
+  public function get_resources() {
+    return array(
+      'iarchive_file_path' => array(
+        $this->object_info['.']['page']->uri,
+      ),
+    );
   }
 }
