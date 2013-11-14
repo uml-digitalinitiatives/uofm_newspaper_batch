@@ -190,6 +190,7 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
     // Grab the PDF for the page.
     $this->add_pdf();
     // Grab the whatever_sm.jpg version (as JPG)
+    // Not anymore as I generated those for Manitobia, grab the full sized JPG
     $this->add_sm_jpg();
     // Translate the page.xml to hOCR.
     $this->add_hocr();
@@ -345,7 +346,9 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
 
       // Change the file extension.
       $xml = array_pop($components);
-      $components[] = pathinfo($xml, PATHINFO_FILENAME) . '_sm.jpg';
+      //$components[] = pathinfo($xml, PATHINFO_FILENAME) . '_sm.jpg';
+      // Changed to get full sized image 
+      $components[] = pathinfo($xml, PATHINFO_FILENAME) . '.jpg';
 
       $path = implode('/', $components);
     }
