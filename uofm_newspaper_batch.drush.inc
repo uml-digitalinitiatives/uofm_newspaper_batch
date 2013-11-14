@@ -54,6 +54,7 @@ function uofm_newspaper_batch_drush_command() {
 
 function drush_uofm_newspaper_batch_preprocess() {
     // Build one of our preprocessors.
+  drupal_static_reset('islandora_get_tuque_connection');
   $connection = islandora_get_tuque_connection();
   $parameters = array(
     'type' => 'directory',
