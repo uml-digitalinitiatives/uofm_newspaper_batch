@@ -60,13 +60,13 @@ class UoMNewspaperPaperObject extends IslandoraFlatBatchObject {
     $unit = NULL;
 
     if ($unit === NULL) {
-      $unit = simplexml_load_file($this->object_info['.']['unit']->uri);
+      $unit = simplexml_load_file($this->objectInfo['.']['unit']->uri);
       if ($unit) {
         $unit->registerXPathNamespace('ia', 'http://www.iarchives.com/schema/2002/export');
       }
       else {
         throw new Exception(t('Failed to parse XML "@file".', array(
-          '@file' => $this->object_info['.']['unit']->uri,
+          '@file' => $this->objectInfo['.']['unit']->uri,
         )));
       }
     }
@@ -84,7 +84,7 @@ class UoMNewspaperPaperObject extends IslandoraFlatBatchObject {
     $children = array();
 
     // XXX: drupal_dirname() may not work with ZIP sources...
-    $unit_dirname = drupal_dirname($this->object_info['.']['unit']->uri);
+    $unit_dirname = drupal_dirname($this->objectInfo['.']['unit']->uri);
 
     $i = 0;
     foreach ($unit->pages->{'page-ref'} as $page_ref) {
@@ -116,8 +116,8 @@ class UoMNewspaperPaperObject extends IslandoraFlatBatchObject {
       $mods->mimetype = 'text/xml';
       $mods->label = 'MODS Record';
 
-      $mods->content = static::run_xsl_transform(array(
-        'input' => file_get_contents($this->object_info['.']['unit']->uri),
+      $mods->content = static::runXslTransform(array(
+        'input' => file_get_contents($this->objectInfo['.']['unit']->uri),
         'xsl' => drupal_get_path('module', 'uofm_newspaper_batch') . '/transforms/iarchive_to_mods.xsl',
         'php_functions' => array(
           'uofm_newspaper_batch_fix_date',
@@ -139,7 +139,7 @@ class UoMNewspaperPaperObject extends IslandoraFlatBatchObject {
   public function getResources() {
     return array(
       'iarchive_file_path' => array(
-        $this->object_info['.']['unit']->uri,
+        $this->objectInfo['.']['unit']->uri,
       ),
     );
   }
@@ -154,7 +154,7 @@ class UoMNewspaperPaperObject extends IslandoraFlatBatchObject {
     // Add the article XML entries onto the newspaper object.
     $articles = $this->getUnit()->xpath('/ia:unit/ia:articles/ia:article-ref');
     if ($articles) {
-      $unit_dir = dirname($this->object_info['.']['unit']->uri);
+      $unit_dir = dirname($this->objectInfo['.']['unit']->uri);
       foreach (array_values($articles) as $article) {
         $article_file = $unit_dir . '/' . $article['href'];
         $article_number = pathinfo($article_file, PATHINFO_FILENAME);
@@ -270,7 +270,7 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
   protected function findTiff() {
     if ($this->tiffPath === NULL) {
       // Get the URI of the page.xml.
-      $page_uri = $this->object_info['.']['page']->uri;
+      $page_uri = $this->objectInfo['.']['page']->uri;
       // Break into components.
       $components = explode('/', $page_uri);
 
@@ -317,7 +317,7 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
 
     if ($path === NULL) {
       // Get the URI of the page.xml
-      $page_uri = $this->object_info['.']['page']->uri;
+      $page_uri = $this->objectInfo['.']['page']->uri;
       // Break into components.
       $components = explode('/', $page_uri);
 
@@ -362,7 +362,7 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
 
     if ($path === NULL) {
       // Get the URI of the page.xml
-      $page_uri = $this->object_info['.']['page']->uri;
+      $page_uri = $this->objectInfo['.']['page']->uri;
       // Break into components.
       $components = explode('/', $page_uri);
 
@@ -405,8 +405,8 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
       $hocr->mimetype = 'text/xml';
       $hocr->label = 'HOCR Record';
 
-      $base_hocr = static::run_xsl_transform(array(
-        'input' => file_get_contents($this->object_info['.']['page']->uri),
+      $base_hocr = static::runXslTransform(array(
+        'input' => file_get_contents($this->objectInfo['.']['page']->uri),
         'xsl' => drupal_get_path('module', 'uofm_newspaper_batch') . '/transforms/iarchive_to_hocr.xsl',
       ));
 
@@ -444,12 +444,12 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
       $ocr->mimetype = 'text/plain';
       $ocr->label = 'OCR Record';
 
-      $base_hocr = static::run_xsl_transform(array(
-        'input' => file_get_contents($this->object_info['.']['page']->uri),
+      $base_hocr = static::runXslTransform(array(
+        'input' => file_get_contents($this->objectInfo['.']['page']->uri),
         'xsl' => drupal_get_path('module', 'uofm_newspaper_batch') . '/transforms/iarchive_to_hocr.xsl',
       ));
 
-      $ocr->content = static::run_xsl_transform(array(
+      $ocr->content = static::runXslTransform(array(
         'input' => $base_hocr,
         'xsl' => drupal_get_path('module', 'uofm_newspaper_batch') . '/transforms/flatten_xml_text_nodes.xslt',
       ));
@@ -471,8 +471,8 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
       $mods = $this->constructDatastream('MODS', 'M');
       $mods->mimetype = 'text/xml';
       $mods->label = 'MODS Record';
-      $mods->content = static::run_xsl_transform(array(
-        'input' => file_get_contents($this->object_info['.']['page']->uri),
+      $mods->content = static::runXslTransform(array(
+        'input' => file_get_contents($this->objectInfo['.']['page']->uri),
         'xsl' => drupal_get_path('module', 'uofm_newspaper_batch') . '/transforms/iarchive_to_mods.xsl',
         'php_functions' => array(
           'uofm_newspaper_batch_fix_date',
@@ -495,13 +495,13 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
     $page = NULL;
 
     if ($page === NULL) {
-      $page = simplexml_load_file($this->object_info['.']['page']->uri);
+      $page = simplexml_load_file($this->objectInfo['.']['page']->uri);
       if ($page) {
         $page->registerXPathNamespace('ia', 'http://www.iarchives.com/schema/2002/export');
       }
       else {
         throw new Exception(t('Failed to parse the XML file "@file".', array(
-          '@file' => $this->object_info['.']['page']->uri,
+          '@file' => $this->objectInfo['.']['page']->uri,
         )));
       }
     }
@@ -527,7 +527,7 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
   public function getResources() {
     return array(
       'iarchive_file_path' => array(
-        $this->object_info['.']['page']->uri,
+        $this->objectInfo['.']['page']->uri,
       ),
     );
   }
