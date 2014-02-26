@@ -100,7 +100,7 @@ class UoMNewspaperPaperObject extends IslandoraFlatBatchObject {
         ),
       );
       $children[] = new UoMNewspaperPageObject($connection, $this->id, $i++,
-        $page_object_info, $this->preprocessor_parameters);
+        $page_object_info, $this->preprocessorParameters);
     }
 
     return $children;
