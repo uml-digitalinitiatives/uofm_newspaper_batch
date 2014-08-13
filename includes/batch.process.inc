@@ -275,7 +275,8 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
       $components = explode('/', $page_uri);
 
       // Add in component for TIFF directory.
-      array_splice($components, -5, 0, 'TIFFS');
+      // Below was only needed for the ones I had sorted.
+      // array_splice($components, -5, 0, 'TIFFS');
       // Change "pages" to "Archival_Images".
       array_splice($components, -2, 1, 'Archival_Images');
 
