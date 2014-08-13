@@ -13,8 +13,7 @@ function uofm_newspaper_batch_drush_command() {
 
   $items['uofm_newspaper_batch_preprocess'] = array(
     'aliases' => array('uom_npp'),
-    'description' => 'Preprocesses newspapers from IArchive folder structure ' .
-      'into database entries.',
+    'description' => 'Preprocesses newspapers from IArchive folder structure into database entries.',
     'drupal dependencies' => array('uofm_newspaper_batch'),
     'options' => array(
       'target' => array(
@@ -26,23 +25,19 @@ function uofm_newspaper_batch_drush_command() {
         'value' => 'optional',
       ),
       'content_models' => array(
-        'description' => 'A comma-separated list of content models to assign ' .
-          'to the objects. Only applies to the "book" level object.',
+        'description' => 'A comma-separated list of content models to assign to the objects. Only applies to the "book" level object.',
         'value' => 'optional',
       ),
       'parent' => array(
-        'description' => 'The collection to which the generated items should ' .
-          'be added.  Only applies to the "newspaper issue" level object.',
-        'value' => 'optional'
+        'description' => 'The collection to which the generated items should be added.  Only applies to the "newspaper issue" level object.',
+        'value' => 'optional',
       ),
       'parent_relationship_uri' => array(
-        'description' => 'The namespace URI of the relationship to the parent.' .
-          ' Defaults to "info:fedora/fedora-system:def/relations-external#".',
+        'description' => 'The namespace URI of the relationship to the parent. Defaults to "info:fedora/fedora-system:def/relations-external#".',
         'value' => 'optional',
       ),
       'parent_relationship_pred' => array(
-        'description' => 'The predicate of the relationship to the parent. ' .
-          'Defaults to "isMemberOf".',
+        'description' => 'The predicate of the relationship to the parent. Defaults to "isMemberOf".',
         'value' => 'optional',
       ),
     ),
@@ -52,9 +47,11 @@ function uofm_newspaper_batch_drush_command() {
   return $items;
 }
 
+/**
+ * Drush command callback; perform the newspaper preprocessing.
+ */
 function drush_uofm_newspaper_batch_preprocess() {
-    // Build one of our preprocessors.
-  drupal_static_reset('islandora_get_tuque_connection');
+  // Build one of our preprocessors.
   $connection = islandora_get_tuque_connection();
   $parameters = array(
     'type' => 'directory',
