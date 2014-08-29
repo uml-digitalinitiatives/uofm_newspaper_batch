@@ -215,17 +215,6 @@ class UoMIarchivesNewspaperPageObject extends IslandoraFlatBatchObject {
     $this->addHocr();
     $this->addOcr();
 
-    // XXX: Needs to be made to use the shared image derivative module/library
-    // (didn't actually exist at the time of writing).
-    // Generate the JP2 and TN.
-    $uploaded_file = $this->findTiff();
-    $base_name = str_replace(':', '-', $this->id);
-    if ($uploaded_file) {
-      module_load_include('inc', 'islandora_large_image', 'includes/derivatives');
-      $jp2 = islandora_large_image_create_JP2_derivative($this, $uploaded_file, $base_name);
-      $tn = islandora_large_image_create_TN_derivative($this, $uploaded_file, $base_name);
-    }
-
     return ISLANDORA_BATCH_STATE__DONE;
   }
 
