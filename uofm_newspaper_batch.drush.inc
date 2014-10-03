@@ -92,9 +92,11 @@ function drush_uofm_newspaper_batch_preprocess() {
     case 'iarchives':
       $preprocessor = new UoMIarchivesNewspaperBatchPreprocessor($connection, $parameters);
       break;
+
     case 'olive':
       $preprocessor = new UoMOliveNewspaperBatchPreprocessor($connection, $parameters);
       break;
+
     default:
       return drush_set_error(t('"@type" is not a valid xml type. Please choose between "iarchives" and "olive".', array('@type' => $xml_type)));
   }
@@ -104,7 +106,7 @@ function drush_uofm_newspaper_batch_preprocess() {
 }
 
 /**
- * Fixes or adds sequence numbers to newspaper issues
+ * Fixes or adds sequence numbers to newspaper issues.
  */
 function drush_uofm_newspaper_batch_sequence() {
   $parent = drush_get_option('parent');
@@ -114,7 +116,7 @@ function drush_uofm_newspaper_batch_sequence() {
   if (!in_array('islandora:newspaperCModel', $models)) {
     return drush_set_error(t('Selected parent is not of a type islandora:newspaperCModel, exiting...'));
   }
-  $query =<<<EOQ
+  $query = <<<EOQ
 PREFIX islandora-rels-ext: <http://islandora.ca/ontology/relsext#>
 SELECT ?obj ?issued FROM <#ri>
 WHERE {
@@ -124,12 +126,14 @@ WHERE {
 }
 ORDER BY ?issued
 EOQ;
-  
+
   $results = $object->repository->ri->sparqlQuery($query);
   $counter = 1;
   $operations = array();
   foreach ($results as $result) {
-    $operations[] = array('_uofm_newspaper_batch_fix_sequence', array($result['object']['value'], $counter));
+    $operations[] = array('_uofm_newspaper_batch_fix_sequence',
+      array($result['object']['value'], $counter),
+    );
     $counter += 1;
   }
   
@@ -164,7 +168,10 @@ function _uofm_newspaper_batch_fix_sequence($pid, $count, &$context) {
   }
 }
 
-function _uofm_newspaper_batch_fix_sequence_finished($success, $results, $operations){
+/**
+ * Fix the sequence numbers for the issues of a particular newspaper.
+ */
+function _uofm_newspaper_batch_fix_sequence_finished($success, $results, $operations) {
   if ($success) {
     $message = format_plural(count($results), 'One issue processed.', '@count issues processed.');
   }

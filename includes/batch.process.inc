@@ -19,4 +19,3 @@ function uofm_newspaper_batch_fix_date($date_string_in) {
   $date_string_out = date('Y-m-d', $timestamp);
   return $date_string_out;
 }
-

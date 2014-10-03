@@ -46,17 +46,9 @@ class UoMOliveNewspaperPaperObject extends IslandoraFlatBatchObject {
 
     if ($toc === NULL) {
       $toc = simplexml_load_file($this->objectInfo['.']['TOC']->uri);
-//      if ($unit) {
-//        $unit->registerXPathNamespace('ia', 'http://www.iarchives.com/schema/2002/export');
-//      }
-//      else {
-//        throw new Exception(t('Failed to parse XML "@file".', array(
-//          '@file' => $this->objectInfo['.']['unit']->uri,
-//        )));
-//      }
     }
 
-    return $unit;
+    return $toc;
   }
 
   /**
@@ -136,34 +128,14 @@ class UoMOliveNewspaperPaperObject extends IslandoraFlatBatchObject {
     // Should add the "unit.xml" as "unit".
     $parent_return = parent::batchProcess();
 
-    // Add the article XML entries onto the newspaper object.
-    $articles = $this->getToc()->xpath('/ia:unit/ia:articles/ia:article-ref');
-    if ($articles) {
-      $unit_dir = dirname($this->objectInfo['.']['unit']->uri);
-      foreach (array_values($articles) as $article) {
-        $article_file = $unit_dir . '/' . $article['href'] . ".xml";
-        $article_number = pathinfo($article_file, PATHINFO_FILENAME);
-        $article_ds = $this->constructDatastream("ARTICLE-$article_number", 'M');
-        $article_ds->label = "Article $article_number";
-        $article_ds->mimetype = 'application/xml';
-        $article_ds->setContentFromFile($article_file, FALSE);
-
-        $this->ingestDatastream($article_ds);
-      }
-    }
-
     return ISLANDORA_BATCH_STATE__DONE;
   }
-  
-  private function getArticle($article) {
-    
-    
-  }
+
 }
 
 class UoMOliveNewspaperPageObject extends IslandoraFlatBatchObject {
-  protected $parentId;
-  protected $tiffPath = NULL;
+  protected $parent_id;
+  protected $tiff_path = NULL;
   protected $date;
   /**
    * Constructor.
@@ -216,7 +188,6 @@ class UoMOliveNewspaperPageObject extends IslandoraFlatBatchObject {
     // Small JPGs no longer exist by default.
     $this->addSmJpg();
 
-
     return ISLANDORA_BATCH_STATE__DONE;
   }
 
@@ -228,17 +199,18 @@ class UoMOliveNewspaperPageObject extends IslandoraFlatBatchObject {
    */
   protected function addTiff() {
     if (!isset($this['OBJ'])) {
-      $tiffPath = $this->findTiff();
-      if ($tiffPath) {
+      $tiff_path = $this->findTiff();
+      if ($tiff_path) {
         // Add the tiff (if it isn't already on the object).
+        $this->tiffPath = $tiff_path;
         $obj = $this->constructDatastream('OBJ', 'M');
         $obj->label = 'Newspaper page';
         $obj->mimetype = 'image/tiff';
         $obj->setContentFromFile($this->tiffPath, FALSE);
         $this->ingestDatastream($obj);
         return $this['OBJ'];
+      }
     }
-    
   }
 
 
@@ -288,13 +260,13 @@ class UoMOliveNewspaperPageObject extends IslandoraFlatBatchObject {
    */
   protected function addPdf() {
     if (!isset($this['PDF'])) {
-      $pdfPath = $this->findPdf();
-      if ($pdfPath) {
+      $pdf_path = $this->findPdf();
+      if ($pdf_path) {
         // Add the pdf (if it isn't already on the object).
         $obj = $this->constructDatastream('PDF', 'M');
         $obj->label = 'Newspaper page PDF';
         $obj->mimetype = 'application/pdf';
-        $obj->setContentFromFile($pdfPath, FALSE);
+        $obj->setContentFromFile($pdf_path, FALSE);
         $this->ingestDatastream($obj);
         return $this['PDF'];
       }
@@ -339,13 +311,13 @@ class UoMOliveNewspaperPageObject extends IslandoraFlatBatchObject {
    */
   protected function addSmJpg() {
     if (!isset($this['JPG'])) {
-      $smJpgPath = $this->findSmJpg();
-      if ($smJpgPath) {
+      $sm_jpg_path = $this->findSmJpg();
+      if ($sm_jpg_path) {
         // Add the sm_jpg (if it isn't already on the object).
         $obj = $this->constructDatastream('JPG', 'M');
         $obj->label = 'Newspaper page';
         $obj->mimetype = 'image/jpeg';
-        $obj->setContentFromFile(, FALSE);
+        $obj->setContentFromFile($sm_jpg_path, FALSE);
         $this->ingestDatastream($obj);
         return $this['JPG'];
       }
