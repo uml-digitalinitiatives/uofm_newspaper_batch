@@ -5,6 +5,25 @@
  * Classes and functions related to the islandora_batch framework.
  */
 
+/**
+* Attempt to reparse a string into a more easily usable format.
+*
+* @param string $date_string_in
+*   A date we will create a new DateTime from.
+*
+* @return string
+*   A string of the format YYYY-MM-DD.
+*/
+function uofm_newspaper_batch_fix_date($date_string_in) {
+  $date = DateTime::createFromFormat($format, 'd/m/Y');
+  if ($date) {
+    return $date->format('Y-m-d');
+  }
+  else {
+    return $date_string_in;
+  }
+}
+
 class UoMIarchivesNewspaperBatchPreprocessor extends IslandoraBookBatch {
   /**
    * Inherits.
@@ -105,7 +124,7 @@ class UoMIarchivesNewspaperPaperObject extends IslandoraFlatBatchObject {
         'input' => file_get_contents($this->objectInfo['.']['unit']->uri),
         'xsl' => drupal_get_path('module', 'uofm_newspaper_batch') . '/transforms/iarchive_to_mods.xsl',
         'php_functions' => array(
-          'uofm_newspaper_batch_fix_date',
+          'uofm_newspaper_batch_iarchives_fix_date',
         ),
       ));
 
@@ -451,7 +470,7 @@ class UoMIarchivesNewspaperPageObject extends IslandoraFlatBatchObject {
         'input' => file_get_contents($this->objectInfo['.']['page']->uri),
         'xsl' => drupal_get_path('module', 'uofm_newspaper_batch') . '/transforms/iarchive_to_mods.xsl',
         'php_functions' => array(
-          'uofm_newspaper_batch_fix_date',
+          'uofm_newspaper_batch_iarchives_fix_date',
         ),
       ));
 

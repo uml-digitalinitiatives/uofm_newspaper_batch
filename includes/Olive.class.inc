@@ -5,6 +5,25 @@
  * Classes and functions related to the islandora_batch framework.
  */
 
+/**
+* Attempt to reparse a string into a more easily usable format.
+*
+* @param string $date_string_in
+*   A date we will create a new DateTime from.
+*
+* @return string
+*   A string of the format YYYY-MM-DD.
+*/
+function uofm_newspaper_batch_fix_date($date_string_in) {
+  $date = DateTime::createFromFormat('d/m/Y', $date_string_in);
+  if ($date) {
+    return $date->format('Y-m-d');
+  }
+  else {
+    return $date_string_in;
+  }
+}
+
 class UoMOliveNewspaperBatchPreprocessor extends IslandoraBookBatch {
   /**
    * Inherits.
@@ -65,9 +84,10 @@ class UoMOliveNewspaperPaperObject extends IslandoraFlatBatchObject {
 
     $i = 0;
     foreach ($toc->xpath('//Page') as $page_ref) {
+      
       // Synthesize the "object_info" structure.
       $page_obj = new stdClass();
-      $page_obj->uri = $unit_dirname . '/' . $page_ref['href'] . ".xml";
+      $page_obj->uri = $toc_dirname . $page_ref['HREF'] . ".xml";
       $page_obj->filename = pathinfo($page_obj->uri, PATHINFO_BASENAME);
       $page_obj->name = pathinfo($page_obj->uri, PATHINFO_FILENAME);
 
@@ -115,8 +135,8 @@ class UoMOliveNewspaperPaperObject extends IslandoraFlatBatchObject {
    */
   public function getResources() {
     return array(
-      'iarchive_file_path' => array(
-        $this->objectInfo['.']['unit']->uri,
+      'olive_file_path' => array(
+        $this->objectInfo['.']['TOC']->uri,
       ),
     );
   }
@@ -186,7 +206,7 @@ class UoMOliveNewspaperPageObject extends IslandoraFlatBatchObject {
     $this->addTiff();
     // Grab the whatever_sm.jpg version (as JPG).
     // Small JPGs no longer exist by default.
-    $this->addSmJpg();
+    //$this->addSmJpg();
 
     return ISLANDORA_BATCH_STATE__DONE;
   }
@@ -221,12 +241,24 @@ class UoMOliveNewspaperPageObject extends IslandoraFlatBatchObject {
     if ($this->tiffPath === NULL) {
       $xml = simplexml_load_file($this->objectInfo['.']['page']->uri);
       $tiff_name = NULL;
-      foreach ($xml->Meta->attributes() as $name => $val) {
-        if ((string) $name == "RELEASE_NO") {
-          $tiff_name = $val;
-          break;
+      $res = $xml->xpath('/XMD-PAGE/Meta');
+      if (count($res) > 0) {
+        foreach ($res[0]->attributes() as $name => $val) {
+          if ((string) $name == "RELEASE_NO") {
+            $tiff_name = $val;
+            break;
+
+          }
         }
       }
+      if (empty($tiff_name)) {
+        throw new Exception("Could not locate Tiff filename in file @f",
+          array("@f" => $this->objectInfo['.']['page']->uri));
+      }
+      // Because all filenames are the same we have to switch in the
+      // correct page number and the case is wrong 
+      $new_file = str_pad($this->getPageNumber(), 3, '0', STR_PAD_LEFT);
+      $tiff_name = str_replace('001-SINGLE', $new_file . '-Single', $tiff_name);
       
       // Get the URI of the page.xml.
       $page_uri = $this->objectInfo['.']['page']->uri;
@@ -237,12 +269,13 @@ class UoMOliveNewspaperPageObject extends IslandoraFlatBatchObject {
       // Below was only needed for the ones I had sorted.
       // array_splice($components, -5, 0, 'TIFFS');
       // Change "pages" to "Archival_Images".
-      array_splice($components, -3, NULL, 'Archival_images');
+      array_splice($components, -4, 4, 'Archival_images');
 
       // Change the file extension.
       $components[] = $tiff_name . '.tif';
 
       $this->tiffPath = implode('/', $components);
+
     }
     if (file_exists($this->tiffPath)) {
       return $this->tiffPath;
@@ -314,9 +347,9 @@ class UoMOliveNewspaperPageObject extends IslandoraFlatBatchObject {
       $sm_jpg_path = $this->findSmJpg();
       if ($sm_jpg_path) {
         // Add the sm_jpg (if it isn't already on the object).
-        $obj = $this->constructDatastream('JPG', 'M');
+        $obj = $this->constructDatastream('PNG', 'M');
         $obj->label = 'Newspaper page';
-        $obj->mimetype = 'image/jpeg';
+        $obj->mimetype = 'image/png';
         $obj->setContentFromFile($sm_jpg_path, FALSE);
         $this->ingestDatastream($obj);
         return $this['JPG'];
@@ -337,11 +370,11 @@ class UoMOliveNewspaperPageObject extends IslandoraFlatBatchObject {
       $components = explode('/', $page_uri);
 
       // Add in "images" component.
-      array_splice($components, -1, 0, 'Img');
+      array_splice($components, -1, 1, 'Img');
 
       // Change the file extension.
       $xml = array_pop($components);
-      $components[] = pathinfo($xml, PATHINFO_FILENAME) . '.jpg';
+      $components[] = pathinfo($xml, PATHINFO_FILENAME) . '.png';
 
       $path = implode('/', $components);
     }
@@ -361,9 +394,15 @@ class UoMOliveNewspaperPageObject extends IslandoraFlatBatchObject {
     $page_number = NULL;
     // Return the page/sequence number.
     if ($page_number === NULL) {
-      $p = $this->getPage()->xpath('/ia:page/ia:header-item[@name="page"]');
+      $p = $this->getPage()->xpath('/XMD-PAGE/Meta');
       if (count($p) > 0) {
-        $page_number = $p[0]['value'];
+        foreach ($p[0]->attributes() as $k => $v) {
+          if ($k == 'PAGE_NO') {
+            $page_number = $v;
+            break;
+            
+          }
+        }
       }
     }
 
@@ -471,14 +510,6 @@ class UoMOliveNewspaperPageObject extends IslandoraFlatBatchObject {
 
     if ($page === NULL) {
       $page = simplexml_load_file($this->objectInfo['.']['page']->uri);
-      if ($page) {
-        $page->registerXPathNamespace('ia', 'http://www.iarchives.com/schema/2002/export');
-      }
-      else {
-        throw new Exception(t('Failed to parse the XML file "@file".', array(
-          '@file' => $this->objectInfo['.']['page']->uri,
-        )));
-      }
     }
 
     return $page;

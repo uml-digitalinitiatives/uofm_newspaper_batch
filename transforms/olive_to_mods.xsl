@@ -2,11 +2,10 @@
 <xsl:stylesheet version="1.0"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:php="http://php.net/xsl"
+  xmlns:ia="http://www.iarchives.com/schema/2002/export"
   xmlns="http://www.loc.gov/mods/v3">
 
   <xsl:output method='xml' version='1.0' encoding='utf-8' indent='yes'/>
-  
-  <xsl:variable name="publication_title" select="document('../xml/Olive_newspaper_key')//newspaper[/codes/code = @PUBLICATION]/name" />
 
   <!-- A page is a page... -->
   <xsl:template match="/">
@@ -32,23 +31,33 @@
     </mods>
   </xsl:template>
 
-  <xsl:template match="Xmd_toc" mode="title">
-    <xsl:value-of select="$publication_title" />
-    <xsl:value-of select="concat(' (',php:functionString('uofm_newspaper_batch_fix_date', @ISSUE_DATE),')')"/>
+  <xsl:template name="findTitle">
+    <xsl:param name="code" />
+    <xsl:value-of name="publication_title" select="document('../xml/Olive_newspaper_key.xml')//newspaper[codes/code = $code]/name" />
   </xsl:template>
 
   <xsl:template match="Xmd_toc" mode="title">
+    <xsl:apply-templates mode="printTitle" select="."/>
+  </xsl:template>
+
+  <xsl:template match="XMD-PAGE" mode="title">
+    <xsl:apply-templates mode="printTitle" select="Meta"/>
+  </xsl:template>
+
+  <xsl:template match="Xmd_toc|Meta" mode="printTitle">
     <title>
-      <xsl:value-of select="$publication_title"/>
-      <xsl:if test="string-length(@ISSUE_DATE) &gt; 0">
-        <xsl:text>, </xsl:text>
-        <xsl:value-of select="php:functionString('uofm_newspaper_batch_fix_date', @ISSUE_DATE)"/>
-      </xsl:if>
-      <xsl:if test="@PAGE_NO">
-        <xsl:text> ( Page</xsl:text>
-        <xsl:value-of select="@PAGE_NO"/>
-        <xsl:text>)</xsl:text>
-      </xsl:if>
+    <xsl:call-template name="findTitle">
+      <xsl:with-param name="code" select="@PUBLICATION"/>
+    </xsl:call-template>
+    <xsl:if test="string-length(@ISSUE_DATE) &gt; 0">
+      <xsl:text>, </xsl:text>
+      <xsl:value-of select="php:functionString('uofm_newspaper_batch_fix_date', @ISSUE_DATE)"/>
+    </xsl:if>
+    <xsl:if test="@PAGE_NO">
+      <xsl:text> ( Page </xsl:text>
+      <xsl:value-of select="@PAGE_NO"/>
+      <xsl:text>)</xsl:text>
+    </xsl:if>
     </title>
   </xsl:template>
 
@@ -76,13 +85,16 @@
     </subTitle>
   </xsl:template>
 
-  <xsl:template match="Xmd_toc" mode="related">
+  <xsl:template match="Xmd_toc|XMD-PAGE/Meta" mode="related">
     <titleInfo>
       <title>
-        <xsl:value-of select="$publication_title"/>
+        <xsl:call-template name="findTitle">
+          <xsl:with-param name="code" select="@PUBLICATION"/>
+        </xsl:call-template>
       </title>
     </titleInfo>
   </xsl:template>
+
 
   <xsl:template match="ia:header-item[@name='volume']" mode="related_part">
     <detail>
@@ -103,23 +115,23 @@
     </detail>
   </xsl:template>
 
-  <xsl:template match="Xmd_toc/@PAGE_NO" mode="related_part">
+  <xsl:template match="Xmd_toc|XMD-PAGE/Meta" mode="related_part">
     <extent unit="pages">
       <start>
-        <xsl:value-of select="text()"/>
+        <xsl:value-of select="@PAGE_NO"/>
       </start>
     </extent>
   </xsl:template>
 
-  <xsl:template match="Xmd_toc/@ISSUE_DATE" mode="related_part">
+  <xsl:template match="Xmd_toc|XMD-Page/Meta" mode="related_part">
     <date encoding="iso8601">
-      <xsl:value-of select="php:functionString('uofm_newspaper_batch_fix_date', text())"/>
+      <xsl:value-of select="php:functionString('uofm_newspaper_batch_fix_date', @ISSUE_DATE)"/>
     </date>
   </xsl:template>
 
-  <xsl:template match="Xmd_toc/@ISSUE_DATE" mode="origin">
+  <xsl:template match="Xmd_toc|XMD-Page/Meta" mode="origin">
     <dateIssued encoding="iso8601">
-      <xsl:value-of select="php:functionString('uofm_newspaper_batch_fix_date', text())"/>
+      <xsl:value-of select="php:functionString('uofm_newspaper_batch_fix_date', @ISSUE_DATE)"/>
     </dateIssued>
   </xsl:template>
 
