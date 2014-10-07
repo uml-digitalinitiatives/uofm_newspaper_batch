@@ -35,15 +35,7 @@
     <xsl:value-of name="publication_title" select="document('../xml/Olive_newspaper_key.xml')//newspaper[codes/code = $code]/name" />
   </xsl:template>
 
-  <xsl:template match="Xmd_toc" mode="title">
-    <xsl:apply-templates mode="printTitle" select="."/>
-  </xsl:template>
-
-  <xsl:template match="XMD-PAGE" mode="title">
-    <xsl:apply-templates mode="printTitle" select="Meta"/>
-  </xsl:template>
-
-  <xsl:template match="Xmd_toc|Meta" mode="printTitle">
+  <xsl:template match="Xmd_toc|XMD-PAGE/Meta" mode="title">
     <title>
     <xsl:call-template name="findTitle">
       <xsl:with-param name="code" select="@PUBLICATION"/>
@@ -53,7 +45,7 @@
       <xsl:value-of select="php:functionString('uofm_newspaper_batch_fix_date', @ISSUE_DATE)"/>
     </xsl:if>
     <xsl:if test="@PAGE_NO">
-      <xsl:text> ( Page </xsl:text>
+      <xsl:text> (Page </xsl:text>
       <xsl:value-of select="@PAGE_NO"/>
       <xsl:text>)</xsl:text>
     </xsl:if>
@@ -71,20 +63,21 @@
   </xsl:template>
 
   <xsl:template match="Xmd_toc|XMD-PAGE/Meta" mode="related_part">
-    <extent unit="pages">
-      <start>
-        <xsl:value-of select="@PAGE_NO"/>
-      </start>
-    </extent>
+    <xsl:if test="@PAGE_NO">
+      <extent unit="pages">
+        <start>
+          <xsl:value-of select="@PAGE_NO"/>
+        </start>
+      </extent>
+    </xsl:if>
+    <xsl:if test="@ISSUE_DATE">
+      <date encoding="iso8601">
+        <xsl:value-of select="php:functionString('uofm_newspaper_batch_fix_date', @ISSUE_DATE)"/>
+      </date>
+    </xsl:if>
   </xsl:template>
 
-  <xsl:template match="Xmd_toc|XMD-Page/Meta" mode="related_part">
-    <date encoding="iso8601">
-      <xsl:value-of select="php:functionString('uofm_newspaper_batch_fix_date', @ISSUE_DATE)"/>
-    </date>
-  </xsl:template>
-
-  <xsl:template match="Xmd_toc|XMD-Page/Meta" mode="origin">
+  <xsl:template match="Xmd_toc|XMD-PAGE/Meta" mode="origin">
     <dateIssued encoding="iso8601">
       <xsl:value-of select="php:functionString('uofm_newspaper_batch_fix_date', @ISSUE_DATE)"/>
     </dateIssued>
