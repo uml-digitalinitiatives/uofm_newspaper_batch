@@ -49,7 +49,7 @@ class UoMOliveNewspaperBatchPreprocessor extends IslandoraBookBatch {
   }
 }
 
-class UoMOliveNewspaperPaperObject extends IslandoraFlatBatchObject {
+class UoMOliveNewspaperPaperObject extends UoMNewspaperPaperObject {
   /**
    * Inherits.
    */
@@ -153,7 +153,7 @@ class UoMOliveNewspaperPaperObject extends IslandoraFlatBatchObject {
 
 }
 
-class UoMOliveNewspaperPageObject extends IslandoraFlatBatchObject {
+class UoMOliveNewspaperPageObject extends UoMNewspaperPaperObject {
   protected $parentId;
   protected $tiffPath = NULL;
   protected $date;

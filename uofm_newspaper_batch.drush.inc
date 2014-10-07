@@ -87,6 +87,11 @@ function drush_uofm_newspaper_batch_preprocess() {
     $parameters['content_models'] = array('islandora:newspaperIssueCModel');
   }
 
+  $object = islandora_object_load($parameters['parent']);
+  if ($object && isset($object['MODS'])) {
+    $parameters['mods'] = $object['MODS']->content;
+  }
+
   $xml_type = drush_get_option('xml_type');
   switch (strtolower($xml_type)) {
     case 'iarchives':
