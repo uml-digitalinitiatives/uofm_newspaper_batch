@@ -154,8 +154,8 @@ class UoMOliveNewspaperPaperObject extends IslandoraFlatBatchObject {
 }
 
 class UoMOliveNewspaperPageObject extends IslandoraFlatBatchObject {
-  protected $parent_id;
-  protected $tiff_path = NULL;
+  protected $parentId;
+  protected $tiffPath = NULL;
   protected $date;
   /**
    * Constructor.

@@ -2,7 +2,6 @@
 <xsl:stylesheet version="1.0"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:php="http://php.net/xsl"
-  xmlns:ia="http://www.iarchives.com/schema/2002/export"
   xmlns="http://www.loc.gov/mods/v3">
 
   <xsl:output method='xml' version='1.0' encoding='utf-8' indent='yes'/>
@@ -61,30 +60,6 @@
     </title>
   </xsl:template>
 
-  <xsl:template match="ia:header-item[@name='volume']" mode="title">
-    <partNumber>
-      <xsl:text>vol </xsl:text>
-      <xsl:value-of select="@value"/>
-      <xsl:if test="../ia:header-item[@name='number']">
-        <xsl:text> no </xsl:text>
-        <xsl:value-of select="../ia:header-item[@name='number']/@value"/>
-
-        <!-- only present in pages -->
-        <xsl:if test="../ia:header-item[@name='page']">
-          <xsl:text> pg </xsl:text>
-          <xsl:value-of select="../ia:header-item[@name='page']/@value"/>
-        </xsl:if>
-      </xsl:if>
-    </partNumber>
-  </xsl:template>
-
-  <!-- Only present in "articles" -->
-  <xsl:template match="ia:header-item[@name='headline']" mode="title">
-    <subTitle>
-      <xsl:value-of select="text()"/>
-    </subTitle>
-  </xsl:template>
-
   <xsl:template match="Xmd_toc|XMD-PAGE/Meta" mode="related">
     <titleInfo>
       <title>
@@ -93,26 +68,6 @@
         </xsl:call-template>
       </title>
     </titleInfo>
-  </xsl:template>
-
-
-  <xsl:template match="ia:header-item[@name='volume']" mode="related_part">
-    <detail>
-      <xsl:attribute name="type">
-        <xsl:value-of select="@name"/>
-      </xsl:attribute>
-      <number>
-        <xsl:value-of select="@value"/>
-      </number>
-    </detail>
-  </xsl:template>
-
-  <xsl:template match="ia:header-item[@name='number']" mode="related_part">
-    <detail type="issue">
-      <number>
-        <xsl:value-of select="@value"/>
-      </number>
-    </detail>
   </xsl:template>
 
   <xsl:template match="Xmd_toc|XMD-PAGE/Meta" mode="related_part">
