@@ -97,17 +97,15 @@ function drush_uofm_newspaper_batch_preprocess() {
       'ns' => array(
         'mods' => 'http://www.loc.gov/mods/v3',
       ),
-      'changes' => array(
-        'add' => array(),
-      ),
+      'changes' => array(),
     );
-    if (count($freq) > 0) {
-      $change['changes']['add'][] = array('/mods:mods/mods:originInfo', $freq->asXML());
+    foreach ($freq as $f) {
+      $change['changes'][] = array('add' => array('/mods:mods/mods:originInfo', $f->asXML()));
     }
-    if (count($access) > 0) {
-      $change['changes']['add'][] = array('/mods:mods', $access->asXML());
+    foreach ($access as $a) {
+      $change['changes'][] = array('add' => array('/mods:mods', $a->asXML()));
     }
-    if (count($change['changes']['add']) > 0) {
+    if (count($change['changes']) > 0) {
       $parameters['mods_patch'] = $change;
     }
   }
