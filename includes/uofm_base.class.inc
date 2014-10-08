@@ -43,7 +43,7 @@ class UoMNewspaperPaperObject extends IslandoraFlatBatchObject {
         $xml = $this['MODS']->content;
         $new_xml = manidora_xml_patcher($this->preprocessorParameters['mods_patch'], $xml);
         if (strlen($new_xml) > 0) {
-          $this['MODS']->content($new_xml);
+          $this['MODS']->setContentFromString($new_xml);
         }
       }
     }
