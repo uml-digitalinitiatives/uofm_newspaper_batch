@@ -26,18 +26,24 @@ function uofm_newspaper_batch_fix_date($date_string_in) {
 
 class UoMNewspaperPaperObject extends IslandoraFlatBatchObject {
 
+  protected $patched = FALSE;
+  
   /**
    * Inherits.
    */
   protected function getMods() {
 
     // Patch the MODS if it exists
-    if (isset($this['MODS'])) {
+    if (isset($this['MODS']) && !$this->patched &&
+      isset($this->preprocessorParameters['mods_patch'])) {
+
+      $this->patched = TRUE;
       if (isset($this['MODS']->content)) {
-        $xml = simplexml_load_string($this['MODS']->content);
-        $xml2 = $this->patchMods($xml);
-        if (strlen($xml2->asXml()) > 0) {
-          $this['MODS']->content($xml2->asXml());
+        module_load_include('inc', 'manidora', 'includes/utilities');
+        $xml = $this['MODS']->content;
+        $new_xml = manidora_xml_patcher($this->preprocessorParameters['mods_patch'], $xml);
+        if (strlen($new_xml) > 0) {
+          $this['MODS']->content($new_xml);
         }
       }
     }
@@ -46,31 +52,6 @@ class UoMNewspaperPaperObject extends IslandoraFlatBatchObject {
     return parent::getMods();
   }
 
-  /**
-   * Modifies the MODS record to include Creative Commons accessConditions,
-   * and frequency from the parent newspaper item.
-   *
-   * @param SimpleXMLElement $xml
-   *
-   * @return SimpleXMLElement
-   */
-  protected function patchMods($xml) {
-    if (isset($this->preprocessorParameters['mods'])) {
-      $parent_xml = simplexml_load_string($this->preprocessorParameters['mods']);
-      $parent_xml->registerXPathNamespace('mods', 'http://www.loc.gov/mods/v3');
-      $access = $parent_xml->xpath('//mods:accessCondition[@type="Creative Commons License"]');
-      $freq = $parent_xml->xpath('//mods:originInfo/mods:frequency[@authority="marcfrequency"]');
-      $changes = array_merge($access, $freq);
-      
-      $target = dom_import_simplexml($xml)->ownerDocument;    
-      $xml->registerXPathNamespace('mods', 'http://www.loc.gov/mods/v3');
-      foreach ($changes as $ele1) {
-        $insert_dom = $target->importNode(dom_import_simplexml($ele1), TRUE);
-        $target->documentElement->insertBefore($insert_dom);
-      }
-    }
-    return $xml;
-  }
 }
 
 

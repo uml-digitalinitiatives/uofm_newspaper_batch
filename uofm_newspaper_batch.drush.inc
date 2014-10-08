@@ -89,7 +89,27 @@ function drush_uofm_newspaper_batch_preprocess() {
 
   $object = islandora_object_load($parameters['parent']);
   if ($object && isset($object['MODS'])) {
-    $parameters['mods'] = $object['MODS']->content;
+    $xml = simplexml_load_string($object['MODS']->content);
+    $xml->registerXPathNamespace('mods', 'http://www.loc.gov/mods/v3');
+    $freq = $xml->xpath('/mods:mods/mods:originInfo/mods:frequency');
+    $access = $xml->xpath('/mods:mods/mods:accessCondition[@type="Creative Commons License"]');
+    $change = array(
+      'ns' => array(
+        'mods' => 'http://www.loc.gov/mods/v3',
+      ),
+      'changes' => array(
+        'add' => array(),
+      ),
+    );
+    if (count($freq) > 0) {
+      $change['changes']['add'][] = array('/mods:mods/mods:originInfo', $freq->asXML());
+    }
+    if (count($access) > 0) {
+      $change['changes']['add'][] = array('/mods:mods', $access->asXML());
+    }
+    if (count($change['changes']['add']) > 0) {
+      $parameters['mods_patch'] = $change;
+    }
   }
 
   $xml_type = drush_get_option('xml_type');
