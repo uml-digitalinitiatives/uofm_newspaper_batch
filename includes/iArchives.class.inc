@@ -30,7 +30,7 @@ class UoMIarchivesNewspaperBatchPreprocessor extends IslandoraBookBatch {
   }
 }
 
-class UoMIarchivesNewspaperPaperObject extends IslandoraFlatBatchObject {
+class UoMIarchivesNewspaperPaperObject extends UoMNewspaperPaperObject {
   /**
    * Inherits.
    */
@@ -105,7 +105,7 @@ class UoMIarchivesNewspaperPaperObject extends IslandoraFlatBatchObject {
         'input' => file_get_contents($this->objectInfo['.']['unit']->uri),
         'xsl' => drupal_get_path('module', 'uofm_newspaper_batch') . '/transforms/iarchive_to_mods.xsl',
         'php_functions' => array(
-          'uofm_newspaper_batch_iarchives_fix_date',
+          'uofm_newspaper_batch_fix_date',
         ),
       ));
 
@@ -156,7 +156,7 @@ class UoMIarchivesNewspaperPaperObject extends IslandoraFlatBatchObject {
   }
 }
 
-class UoMIarchivesNewspaperPageObject extends IslandoraFlatBatchObject {
+class UoMIarchivesNewspaperPageObject extends UoMNewspaperPaperObject {
   protected $parentId;
 
   /**
@@ -451,7 +451,7 @@ class UoMIarchivesNewspaperPageObject extends IslandoraFlatBatchObject {
         'input' => file_get_contents($this->objectInfo['.']['page']->uri),
         'xsl' => drupal_get_path('module', 'uofm_newspaper_batch') . '/transforms/iarchive_to_mods.xsl',
         'php_functions' => array(
-          'uofm_newspaper_batch_iarchives_fix_date',
+          'uofm_newspaper_batch_fix_date',
         ),
       ));
 
