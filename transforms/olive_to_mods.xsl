@@ -42,7 +42,7 @@
     </xsl:call-template>
     <xsl:if test="string-length(@ISSUE_DATE) &gt; 0">
       <xsl:text>, </xsl:text>
-      <xsl:value-of select="php:functionString('uofm_newspaper_batch_fix_date', @ISSUE_DATE)"/>
+      <xsl:value-of select="php:functionString('uofm_newspaper_batch_fix_date', @ISSUE_DATE, 'd/m/Y')"/>
     </xsl:if>
     <xsl:if test="@PAGE_NO">
       <xsl:text> (Page </xsl:text>
@@ -72,14 +72,14 @@
     </xsl:if>
     <xsl:if test="@ISSUE_DATE">
       <date encoding="iso8601">
-        <xsl:value-of select="php:functionString('uofm_newspaper_batch_fix_date', @ISSUE_DATE)"/>
+        <xsl:value-of select="php:functionString('uofm_newspaper_batch_fix_date', @ISSUE_DATE, 'd/m/Y')"/>
       </date>
     </xsl:if>
   </xsl:template>
 
   <xsl:template match="Xmd_toc|XMD-PAGE/Meta" mode="origin">
     <dateIssued encoding="iso8601">
-      <xsl:value-of select="php:functionString('uofm_newspaper_batch_fix_date', @ISSUE_DATE)"/>
+      <xsl:value-of select="php:functionString('uofm_newspaper_batch_fix_date', @ISSUE_DATE, 'd/m/Y')"/>
     </dateIssued>
   </xsl:template>
 

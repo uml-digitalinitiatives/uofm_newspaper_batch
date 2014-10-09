@@ -42,6 +42,9 @@
       <xsl:if test="../ia:header-item[@name='page']">
         <!-- The "page" item already contains the word "Page" -->
         <xsl:text> (</xsl:text>
+        <xsl:if test="not(contains(../ia:header-item[@name='page']/text(),'Page'))">
+          <xsl:text>Page </xsl:text>
+        </xsl:if>
         <xsl:value-of select="../ia:header-item[@name='page']/text()"/>
         <xsl:text>)</xsl:text>
       </xsl:if>

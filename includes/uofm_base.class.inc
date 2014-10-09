@@ -14,8 +14,13 @@
 * @return string
 *   A string of the format YYYY-MM-DD.
 */
-function uofm_newspaper_batch_fix_date($date_string_in) {
-  $date = DateTime::createFromFormat('d/m/Y', $date_string_in);
+function uofm_newspaper_batch_fix_date($date_string_in, $format=NULL) {
+  if (!is_null($format)) {
+    $date = DateTime::createFromFormat($format, $date_string_in);
+  }
+  else {
+    $date = new DateTime($date_string_in);
+  }
   if ($date) {
     return $date->format('Y-m-d');
   }
