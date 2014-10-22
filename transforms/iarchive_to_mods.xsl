@@ -32,7 +32,7 @@
     </mods>
   </xsl:template>
 
-  <xsl:template match="ia:header-item[@name='publication-title']" mode="title">
+  <xsl:template match="ia:header-item[@name='publication-title' and string-length(text()) &gt; 0]" mode="title">
     <title>
       <xsl:value-of select="text()"/>
       <xsl:if test="../ia:header-item[@name='date']">
