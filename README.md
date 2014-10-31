@@ -6,10 +6,7 @@ CONTENTS OF THIS FILE
  * installation
  * configuration
  * customization
- * troubleshooting
- * faq
  * contact
- * sponsors
 
 
 SUMMARY
@@ -23,13 +20,13 @@ It scans for unit.xml files under the "target directory", and attempts to
 create newspapers from them.
 Some assumptions have been made in terms of folder structure.
 * "target" directory
-    * <one or more subdirectories>/
+    * &lt;one or more subdirectories&gt;/
         * unit.xml
         * pages/
             * page-id.xml
         * pdf/
             * page-id.pdf
-        * Archival_Images/_
+        * Archival_Images/
             * page-id.tif
 
 
@@ -69,6 +66,7 @@ the batchProcess() class function.
 
 For example.
 
+```
 protected function findTiff() {
   if ($this->tiffPath === NULL) {
     // Get the URI of the page.xml.
@@ -91,10 +89,14 @@ protected function findTiff() {
 
   return $this->tiffPath;
 }
+```
 
-If the $page_uri in the above example is 
+If the $page_uri in the above example is
+ 
 /dir1/newspapers/19001002/pages/Pg1.xml
+
 then the tiffPath is set to
+
 /dir1/newspapers/19001002/Archival_Images/Pg1.tif
 
 If your path is different it can be modified.
@@ -102,6 +104,7 @@ If your path is different it can be modified.
 
 CONTACT
 -------
- * [Jared Whiklo](https://github.com/whikloj)
+* [University of Manitoba Libraries - Digital Initiatives](https://github.com/uml-digitalinitiatives)
+* [Jared Whiklo](https://github.com/whikloj)
 
 
