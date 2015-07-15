@@ -32,6 +32,25 @@
     </mods>
   </xsl:template>
 
+  <xsl:template match="ia:unit[(not(ia:header-item/@name='publication-title') or string-length(ia:header-item/@name='publication-title') &lt;= 0) and string-length(@collection-title) &gt; 0]" mode="title">
+    <title>
+      <xsl:value-of select="@collection-title" />
+       <xsl:if test="ia:header-item[@name='date']">
+        <xsl:text>, </xsl:text>
+        <xsl:value-of select="php:functionString('uofm_newspaper_batch_fix_date', ia:header-item[@name='date']/text())"/>
+      </xsl:if>
+      <xsl:if test="ia:header-item[@name='page']">
+        <!-- The "page" item already contains the word "Page" -->
+        <xsl:text> (</xsl:text>
+        <xsl:if test="not(contains(ia:header-item[@name='page']/text(),'Page'))">
+          <xsl:text>Page </xsl:text>
+        </xsl:if>
+        <xsl:value-of select="ia:header-item[@name='page']/text()"/>
+        <xsl:text>)</xsl:text>
+      </xsl:if>
+    </title>
+  </xsl:template>
+
   <xsl:template match="ia:header-item[@name='publication-title' and string-length(text()) &gt; 0]" mode="title">
     <title>
       <xsl:value-of select="text()"/>

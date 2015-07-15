@@ -132,6 +132,15 @@ class UoMIarchivesNewspaperPaperObject extends UoMNewspaperPaperObject {
   /**
    * Inherits.
    */
+  public function addRelationships() {
+    parent::addRelationships();
+    // If we don't know the order set them all to 1
+    $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isSequenceNumber', 1, TRUE);
+  }
+
+  /**
+   * Inherits.
+   */
   public function batchProcess() {
     // Should add the "unit.xml" as "unit".
     $parent_return = parent::batchProcess();
