@@ -172,7 +172,7 @@ class UoMIarchivesNewspaperPaperObject extends UoMNewspaperPaperObject {
   public function getTitleForChildren() {
     $dom = new DOMDocument();
     $dom->load($this->objectInfo['.']['unit']->uri);
-    $dom->getElementsByTagName('unit')
+    $dom->getElementsByTagName('unit');
     foreach ($result as $node) {
       $this->objectInfo['.']['paper_name'] = $node->getAttribute('collection-title');
     }
