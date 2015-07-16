@@ -6,6 +6,8 @@
   xmlns="http://www.loc.gov/mods/v3"
   exclude-result-prefixes="ia">
 
+  <xsl:param name="paperTitle" select="''"/>
+
   <xsl:output method='xml' version='1.0' encoding='utf-8' indent='yes'/>
 
   <!-- A page is a page... -->
@@ -49,6 +51,27 @@
         <xsl:text>)</xsl:text>
       </xsl:if>
     </title>
+  </xsl:template>
+
+  <xsl:template match="ia:page[(not(ia:header-item/@name='publication-title') or string-length(ia:header-item/@name='publication-title') &lt;= 0)]" mode="title">
+    <xsl:if test="string-length($paperTitle) &gt; 0">
+    <title>
+        <xsl:value-of select="$paperTitle" />
+       <xsl:if test="ia:header-item[@name='date']">
+        <xsl:text>, </xsl:text>
+        <xsl:value-of select="php:functionString('uofm_newspaper_batch_fix_date', ia:header-item[@name='date']/text())"/>
+      </xsl:if>
+      <xsl:if test="ia:header-item[@name='page']">
+        <!-- The "page" item already contains the word "Page" -->
+        <xsl:text> (</xsl:text>
+        <xsl:if test="not(contains(ia:header-item[@name='page']/text(),'Page'))">
+          <xsl:text>Page </xsl:text>
+        </xsl:if>
+        <xsl:value-of select="ia:header-item[@name='page']/text()"/>
+        <xsl:text>)</xsl:text>
+      </xsl:if>
+    </title>
+    </xsl:if>
   </xsl:template>
 
   <xsl:template match="ia:header-item[@name='publication-title' and string-length(text()) &gt; 0]" mode="title">

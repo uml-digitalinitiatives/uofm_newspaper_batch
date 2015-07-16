@@ -57,6 +57,39 @@ class UoMNewspaperPaperObject extends IslandoraFlatBatchObject {
     return parent::getMods();
   }
 
+  /**
+   * Inherits.
+   *
+   * Modified to allow for parameters array of format:
+   * $param = array(
+   *   namespace => array(
+   *      param-name => value,
+   *   ),
+   * );
+   * Removes parameter before adding so last instance wins.
+   */
+  protected static function runXslTransform($info) {
+    $xsl = new DOMDocument();
+    $xsl->load($info['xsl']);
+    $input = new DOMDocument();
+    $input->loadXML($info['input']);
+    $processor = new XSLTProcessor();
+    $processor->importStylesheet($xsl);
+    if (isset($info['php_functions'])) {
+      $processor->registerPHPFunctions($info['php_functions']);
+    }
+    if (isset($info['parameters'])) {
+      foreach ($info['parameters'] as $ns => $params) {
+        foreach ($params as $n => $v) {
+          $processor->removeParameter($ns, $n);
+          $processor->setParameter($ns, $n, $v);
+        }
+      }
+    }
+    // XXX: Suppressing warnings regarding unregistered prefixes.
+    return $processor->transformToXML($input);
+  }
+
 }
 
 

@@ -70,6 +70,7 @@ class UoMIarchivesNewspaperPaperObject extends UoMNewspaperPaperObject {
 
     // XXX: drupal_dirname() may not work with ZIP sources...
     $unit_dirname = drupal_dirname($this->objectInfo['.']['unit']->uri);
+    $title = getTitleForChildren();
 
     $i = 0;
     foreach ($unit->pages->{'page-ref'} as $page_ref) {
@@ -78,6 +79,7 @@ class UoMIarchivesNewspaperPaperObject extends UoMNewspaperPaperObject {
       $page_obj->uri = $unit_dirname . '/' . $page_ref['href'];
       $page_obj->filename = pathinfo($page_obj->uri, PATHINFO_BASENAME);
       $page_obj->name = pathinfo($page_obj->uri, PATHINFO_FILENAME);
+      $page_obj->title = $title;
 
       $page_object_info = array(
         '.' => array(
@@ -162,6 +164,18 @@ class UoMIarchivesNewspaperPaperObject extends UoMNewspaperPaperObject {
     }
 
     return ISLANDORA_BATCH_STATE__DONE;
+  }
+  
+  /**
+   * Get the title from the issue level XML so we can pass it to the page level.
+   */
+  public function getTitleForChildren() {
+    $dom = new DOMDocument();
+    $dom->load($this->objectInfo['.']['unit']->uri);
+    $dom->getElementsByTagName('unit')
+    foreach ($result as $node) {
+      $this->objectInfo['.']['paper_name'] = $node->getAttribute('collection-title');
+    }
   }
 }
 
@@ -461,6 +475,11 @@ class UoMIarchivesNewspaperPageObject extends UoMNewspaperPaperObject {
         'xsl' => drupal_get_path('module', 'uofm_newspaper_batch') . '/transforms/iarchive_to_mods.xsl',
         'php_functions' => array(
           'uofm_newspaper_batch_fix_date',
+        ),
+        'parameters' => array(
+          '' => array(
+            'paperTitle' => $this->objectInfo['.']['title'],
+          ),
         ),
       ));
 
