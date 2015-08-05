@@ -124,6 +124,16 @@
       </title>
     </titleInfo>
   </xsl:template>
+  <!-- if above header-item element is missing, try to use the $paperTitle variable -->
+  <xsl:template match="ia:page[(not(ia:header-item/@name='publication-title') or string-length(ia:header-item/@name='publication-title') &lt;= 0)]" mode="related">
+    <xsl:if test="string-length($paperTitle) &gt; 0">
+      <titleInfo>
+        <title>
+          <xsl:value-of select="$paperTitle"/>
+        </title>
+      </titleInfo>
+    </xsl:if>
+  </xsl:template>
 
   <xsl:template match="ia:header-item[@name='volume']" mode="related_part">
     <detail>

@@ -512,6 +512,7 @@ class UoMIarchivesNewspaperPageObject extends UoMNewspaperPaperObject {
     $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isPageOf', $this->parentId);
     $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isSequenceNumber', $this->getPageNumber(), TRUE);
     $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isPageNumber', $this->getPageNumber(), TRUE);
+    parent::inheritXacmlPolicies();
   }
 
   /**
