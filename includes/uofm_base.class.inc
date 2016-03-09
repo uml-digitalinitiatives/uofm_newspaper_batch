@@ -44,11 +44,19 @@ class UoMNewspaperPaperObject extends IslandoraFlatBatchObject {
 
       $this->patched = TRUE;
       if (isset($this['MODS']->content)) {
-        module_load_include('inc', 'manidora', 'includes/utilities');
+        module_load_include('inc', 'manidora', 'includes/XMLPatcher.class');
         $xml = $this['MODS']->content;
-        $new_xml = manidora_xml_patcher($this->preprocessorParameters['mods_patch'], $xml);
-        if (strlen($new_xml) > 0) {
-          $this['MODS']->setContentFromString($new_xml);
+        try {
+          $new_xml = \umanitoba\manidora\XMLPatcher::patch($xml, $this->preprocessorParameters['mods_patch']);
+          if (strlen($new_xml) > 0) {
+            $this['MODS']->setContentFromString($new_xml);
+          }
+        }
+        catch (\umanitoba\manidora\XMLPatcherException $e) {
+          if ($e->getCode() == 905) {
+            // Invalid XML
+            drush_log("Unable to patch MODS record. Invalid XML.", "error");
+          }
         }
       }
     }

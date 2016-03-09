@@ -100,10 +100,12 @@ function drush_uofm_newspaper_batch_preprocess() {
       'changes' => array(),
     );
     foreach ($freq as $f) {
-      $change['changes'][] = array('replace' => array('/mods:mods/mods:originInfo/mods:frequency', '/mods:mods/mods:originInfo', $f->asXML()));
+      $change['changes'][] = array('type' => 'remove', 'old' => '/mods:mods/mods:originInfo/mods:frequency');
+      $change['changes'][] = array('type' => 'add', 'parent' => '/mods:mods/mods:originInfo', 'new' => $f->asXML());
     }
     foreach ($access as $a) {
-      $change['changes'][] = array('replace' => array('/mods:mods/mods:accessCondition[@type="Creative Commons License"]', '/mods:mods', $a->asXML()));
+      $change['changes'][] = array('type' => 'remove', 'old' => '/mods:mods/mods:accessCondition[@type="Creative Commons License"]');
+      $change['changes'][] = array('type' => 'add', 'parent' => '/mods:mods', 'new' => $a->asXML());
     }
     if (count($change['changes']) > 0) {
       $parameters['mods_patch'] = $change;
