@@ -126,6 +126,7 @@ function drush_uofm_newspaper_batch_preprocess() {
 
   // Pass the preprocessor off to run.
   $preprocessed = islandora_batch_handle_preprocessor($preprocessor);
+  drush_log(t("New set ID (@s)", array('@s' => $preprocessor->getSetId())), "ok");
 }
 
 /**
