@@ -1,0 +1,847 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<newspaper_histories>
+		<title>Browse Newspaper Titles</title>
+		<meta name="description">Full text searchable scans of some of the oldest newspapers in Canada</meta>
+		<credits lang="en">The short newspaper descriptions were written by Edith Burley and Lynne Champagne.</credits>
+		<credits lang="fr">Les courtes descriptions des journaux furent &#233;crites par Edith Burley et Lynne Champagne.</credits>
+    <newspaper lang="en">
+        <name>Nor'Wester (1859)</name>
+        <sortName>Nor'Wester 1859</sortName>
+        <codes>
+            <code>NWR</code>
+        </codes>
+        <pubDates>
+            <start month="12" day="28" year="1859"/>
+            <end month="11" day="23" year="1869"/>
+        </pubDates>
+        <history lang="fr"> The Nor'Wester, le premier journal du Manitoba, a été publié du 28
+            décembre 1859 au 28 septembre 1869. Son prospectus, publié le 22 août 1859, promettait
+            que le journal ferait valoir les intérêts locaux et rapporterait tous les faits sans
+            parti pris. Sa fréquence de publication variait; il paraissait à toutes les semaines ou
+            deux. Il a été supprimé par les partisans de Louis Riel et fusionné avec le Red River
+            Pioneer pour devenir The New Nation. </history>
+        <history lang="en">The Nor'Wester, Manitoba’s first newspaper, was published from December
+            28, 1859 until September 28, 1869. The prospectus, published August 22, 1859, promised
+            the newspaper would promote local interests and report all events impartially. Its
+            publication frequency varied; it was published weekly or biweekly. It was suppressed by
+                <persName>Louis Riel</persName>’s supporters and was merged with the Red River
+            Pioneer to become The New Nation.</history>
+    </newspaper>
+    <newspaper lang="en">
+        <name>Nor'Wester (1874)</name>
+        <sortName>Nor'Wester 1874</sortName>
+        <codes>
+            <code>NOR</code>
+        </codes>
+        <pubDates>
+            <start month="6" day="29" year="1874"/>
+            <end month="12" day="21" year="1875"/>
+        </pubDates>
+        <history lang="fr">The Nor'Wester a été publié quotidiennement du 8 décembre 1874 au 5
+            avril 1875. Son rédacteur en chef était le marchand et auteur Alexander Begg. Il
+            appuyait le gouvernement provincial Davis, élu en décembre 1874.</history>
+        <history lang="en">The Nor'Wester, published daily from December 8, 1874 to April 5, 1875
+            was edited by Alexander Begg, merchant and author. It supported the Davis provincial
+            government which was elected in December 1874. </history>
+    </newspaper>
+    <newspaper lang="en">
+        <name>Manitoba Gazette</name>
+        <sortName>Manitoba Gazette</sortName>
+        <codes>
+            <code>MGZ</code>
+        </codes>
+        <pubDates>
+            <start month="10" day="12" year="1878"/>
+            <end month="3" day="15" year="1879"/>
+        </pubDates>
+        <history lang="fr">The Manitoba Gazette était un hebdomadaire qui a paru du 12 octobre 1878
+            au 15 mars 1879. Se proclamant libéral-conservateur, il s’opposait au gouvernement
+            provincial au pouvoir. Il a cessé de paraître après avoir été poursuivi en justice pour
+            diffamation. </history>
+        <history lang="en">The Manitoba Gazette was a weekly that appeared from October 12, 1878
+            until March 15, 1879. It claimed to be Liberal-Conservative and an opposed to the
+            current provincial government. It ceased publication after being sued for
+        libel.</history>
+    </newspaper>
+    <newspaper lang="en">
+        <name>Standard</name>
+        <sortName>Standard</sortName>
+        <codes>
+            <code>STD</code>
+        </codes>
+        <pubDates>
+            <start month="11" day="28" year="1874"/>
+            <end month="8" day="30" year="1879"/>
+        </pubDates>
+        <history lang="fr">The Standard a paru une fois par semaine du 28 novembre 1874 au 30 août
+            1879. Le tracé proposé du chemin de fer du Canadien Pacifique et les concessions
+            foncières aux Métis sont quelques-uns des sujets qui ont été discutés à fond dans ses
+            pages. Il s’appelait préalablement le Manitoban and Northwest Herald.</history>
+        <history lang="en">The Standard appeared weekly from November 28, 1874 until August 30,
+            1879. Among the issues discussed at great length in its pages were the proposed route of
+            the CPR and Métis land grants. Its previous title was the Manitoban and Northwest
+            Herald.</history>
+    </newspaper>
+    <newspaper lang="en">
+        <name>Manitoba Herald</name>
+        <sortName>Manitoba Herald</sortName>
+        <codes>
+            <code>MHD</code>
+        </codes>
+        <pubDates>
+            <start month="1" day="11" year="1877"/>
+            <end month="8" day="2" year="1877"/>
+        </pubDates>
+        <history lang="fr">The Manitoba Herald a été publié quotidiennement du 11 janvier 1877 au 2
+            août 1877. Son intention était de défendre les intérêts du Manitoba et de surveiller le
+            comportement des représentants de la province.</history>
+        <history lang="en">The Manitoba Herald was published daily from January 11, 1877 until
+            August 2, 1877. Its intention was to defend the interests of Manitoba and to keep an eye
+            on the behaviour of the province’s representatives.</history>
+    </newspaper>
+    <newspaper lang="en">
+        <name>Quiz</name>
+        <sortName>Quiz</sortName>
+        <codes>
+            <code>QUZ</code>
+        </codes>
+        <pubDates>
+            <start month="10" day="19" year="1878"/>
+            <end month="6" day="7" year="1879"/>
+        </pubDates>
+        <history lang="fr">The Quiz a paru du 19 octobre 1878 au 7 juin 1879. Déclarant qu’il
+            jouerait le rôle de fou du roi, le journal, pendant sa courte vie, s’est moqué des
+            citoyens en vue de Winnipeg et a commenté, parfois sarcastiquement, la politique
+            nationale.</history>
+        <history lang="en">The Quiz appeared from October 19, 1878 until June 7, 1879. It declared
+            that it would play the role of jester and during its short existence it poked fun at
+            prominent citizens of Winnipeg and commented, sometimes sarcastically, on national
+            politics. </history>
+    </newspaper>
+    <newspaper lang="en">
+        <name>Manitoba News-Letter</name>
+        <sortName>Manitoba News-Letter</sortName>
+        <codes>
+            <code>MNL</code>
+        </codes>
+        <pubDates>
+            <start month="9" day="13" year="1870"/>
+            <end month="7" day="1" year="1871"/>
+        </pubDates>
+        <history lang="fr">The Manitoba News-Letter appartenait à John Christian Schultz et a été
+            publié deux fois par semaine du 30 septembre 1870 au 1er juillet 1871. Anti-catholique
+            et pro-canadien, il était violemment opposé aux partisans du gouvernement provisoire.
+            Après avoir été vendu à la Manitoba Printing Company, le journal a reparu sous le nom de
+            Manitoba Liberal.</history>
+        <history lang="en">The Manitoba News-Letter belonged to John Christian Schultz and was
+            published twice a week from September 30, 1870 to July 1, 1971. It was anti-Catholic and
+            pro-Canadian and a violent opponent of supporters of the provisional government. After
+            it was sold to the Manitoba Printing Company, the paper reappeared as The Manitoba
+            Liberal.</history>
+    </newspaper>
+    <newspaper lang="en">
+        <name>Red River Pioneer</name>
+        <sortName>Red River Pioneer</sortName>
+        <codes>
+            <code>RRP</code>
+        </codes>
+        <pubDates>
+            <start month="12" day="1" year="1869"/>
+            <end month="12" day="1" year="1869"/>
+        </pubDates>
+        <history lang="fr">The Red River Pioneer a paru une seule fois, le 1er décembre 1869, avant
+            d’être vendu et fusionné avec le Nor’Wester pour devenir The New Nation.</history>
+        <history lang="en">The Red River Pioneer appeared only once, on Dec 1, 1869, before it was
+            sold and merged with the Nor’Wester to become the New Nation. </history>
+    </newspaper>
+    <newspaper lang="en">
+        <name>New Nation</name>
+				<sortName>New Nation</sortName>
+        <codes>
+            <code>NNT</code>
+        </codes>
+        <pubDates>
+            <start month="1" day="7" year="1870"/>
+            <end month="9" day="3" year="1870"/>
+        </pubDates>
+        <history lang="fr">The New Nation a été publié une fois par semaine du 7 janvier 1870 au 3
+            septembre 1870. Formé par la fusion du Red River Pioneer et du Nor’Wester, il était
+            l’organe du gouvernement provisoire dirigé par Louis Riel. Il rapportait avec amples
+            détails les débats et délibérations du gouvernement provisoire.</history>
+        <history lang="en">The New Nation was published weekly from January 7, 1870 to September 3,
+            1870. Formed by the merger of the Red River Pioneer with the Nor'Wester, it was an organ
+            of the provisional government headed by Louis Riel. It reported in great detail the
+            debates and discussions of the provisional government. </history>
+    </newspaper>
+    <newspaper lang="fr">
+        <name>Courrier du Nord-Ouest</name>
+        <sortName>Courrier du Nord-Ouest</sortName>
+        <codes>
+            <code>CNO</code>
+        </codes>
+        <pubDates>
+            <start month="5" day="31" year="1888"/>
+            <end month="12" day="27" year="1888"/>
+        </pubDates>
+        <history lang="fr">Cet hebdomadaire qui n’a pas fait long feu (mai à décembre 1888) a été
+            fondé à Saint-Boniface par James Prendergast, secrétaire provincial du nouveau
+            gouvernement libéral de Thomas Greenway. Son rédacteur en chef était l’ancien député
+            fédéral de Sainte-Agathe, Ernest Cyr. Établi en réponse au besoin d’un journal politique
+            français pour le Parti libéral provincial, le journal n’a pas réussi à gagner l’appui de
+            la population résolument conservatrice de Saint-Boniface et a disparu après la défaite
+            de Cyr à l’élection provinciale de juin 1888.</history>
+        <history lang="en">This short-lived weekly newspaper (May to December 1888) was founded in
+            St. Boniface by James Prendergast, Provincial Secretary in the newly-formed Liberal
+            government under Thomas Greenway. The editor was former M.P. for Ste. Agathe, Ernest
+            Cyr. Its publication was in response to a need for a French language political newspaper
+            for the provincial Liberal party. The newspaper could not gain the support of the
+            staunchly Conservative population of St. Boniface, and disappeared following Cyr’s
+            defeat in the provincial election in June 1888.</history>
+    </newspaper>
+    <newspaper lang="en">
+        <name>Manitoban and Northwest Herald</name>
+        <sortName>Manitoban and Northwest Herald</sortName>
+        <codes>
+            <code>TWM</code>
+            <code>TMB</code>
+        </codes>
+        <pubDates>
+            <start month="10" day="15" year="1870"/>
+            <end month="11" day="21" year="1874"/>
+        </pubDates>
+        <history lang="fr">The Manitoban and Northwest Herald a paru une fois par semaine du 15
+            octobre 1870 au 21 novembre 1874, quoique sa publication ait été suspendue du 21
+            septembre au 23 novembre 1872. Du 19 novembre 1870 au 14 septembre 1872, il s’est appelé
+            The Weekly Manitoban and Herald of Rupert’s Land and North-Western Territory. Il a été
+            continué par The Standard.</history>
+        <history lang="en"> The Manitoban and Northwest Herald appeared weekly from October 15,
+            1870 until November 21, 1874, though its publication was suspended from September 21 -
+            November 23, 1872. From November 19, 1870 until September 14, 1872, its title changed to
+            the Weekly Manitoban and Herald of Rupert's Land and North-Western Territory. It was
+            continued by the Standard. </history>
+    </newspaper>
+    <newspaper lang="en">
+        <name>Manitoba Liberal</name>
+        <sortName>Manitoba Liberal</sortName>
+        <codes>
+            <code>TML</code>
+        </codes>
+        <pubDates>
+            <start month="7" day="12" year="1871"/>
+            <end month="5" year="1873"/>
+        </pubDates>
+        <history lang="fr">The Manitoba Liberal a été établi après la vente du Manitoba News-Letter
+            à la Manitoba Printing Company. Le 1er juillet 1871, le News-Letter a annoncé qu’il
+            serait remplacé par le Liberal et exhorté ses lecteurs à s’y abonner. Le Liberal a paru
+            une fois par semaine du 12 juillet 1871 à mai 1873 et a continué sous le nom de
+            Nor’Wester en 1874.</history>
+        <history lang="en">The Manitoba Liberal was established after the sale of the Manitoba
+            News-Letter to the Manitoba Printing Company. On July 1, 1871, the News-Letter announced
+            that it would be replaced by the Liberal and urged its readers to subscribe to it. The
+            Liberal appeared weekly from July 12, 1871 until May 1873 and was continued by the
+            Nor’Wester in 1874. </history>
+    </newspaper>
+    <newspaper lang="en">
+        <name>Winnipeg Daily Sun</name>
+        <sortName>Winnipeg Daily Sun</sortName>
+        <codes>
+            <code>WSN</code>
+            <code>TSN</code>
+            <code>WDS</code>
+        </codes>
+        <pubDates>
+            <start month="8" day="17" year="1881"/>
+            <end month="7" day="4" year="1885"/>
+        </pubDates>
+        <history lang="fr">The Winnipeg Daily Sun a été publié six fois par semaine du 17 août 1881
+            au 4 juillet 1885. Il a été un des nombreux journaux éphémères qui se sont fait
+            concurrence à Winnipeg dans les années 1880.</history>
+        <history lang="en">The Winnipeg Daily Sun was published six times a week from August 17,
+            1881 until July 4, 1885. It was one of the many short-lived newspapers that competed for
+            readers in Winnipeg during the 1880s.</history>
+    </newspaper>
+    <newspaper lang="en">
+        <name>Daily Nor'Wester</name>
+        <sortName>Daily Nor'Wester</sortName>
+        <codes>
+            <code>DNW</code>
+        </codes>
+        <pubDates>
+            <start month="2" day="3" year="1894"/>
+            <end month="6" day="8" year="1898"/>
+        </pubDates>
+        <history lang="fr">The Daily Nor’Wester a été publié six jours par semaine (tous les jours
+            sauf le dimanche) du 3 février 1894 au 8 juin 1898. Son prospectus a paru le 29 décembre
+            1893. Il a été fondé par W. F. Luxton, qui a aussi fondé le Manitoba Free Press. Luxton
+            a vendu le Daily Nor’Wester en 1896 et sous une nouvelle direction, le journal a publié
+            une édition du matin et une édition du soir du 2 janvier 1897 au 8 juin 1898. <br/> Il
+            est devenu The Morning Telegram le 9 juin 1898. </history>
+        <history lang="en">The Daily Nor'Wester was published six times a week (except Sundays)
+            from February 3, 1894 to June 8, 1898. Prospectus Dec. 29, 1893. It was started by W.F.
+            Luxton, the founder of the Manitoba Free Press. Luxton sold the Daily Nor'Wester in 1896
+            and under new ownership, morning and evening editions were published from January 2,
+            1897 to June 8, 1898. <br/> It was continued as the Morning Telegram on June 9, 1898.
+        </history>
+    </newspaper>
+    <newspaper lang="en">
+        <name>Morning Telegram</name>
+        <sortName>Morning Telegram</sortName>
+        <codes>
+            <code>TMT</code>
+            <code>TTG</code>
+        </codes>
+        <pubDates>
+            <start month="6" day="9" year="1898"/>
+            <end month="8" day="21" year="1907"/>
+        </pubDates>
+        <history lang="fr">The Morning Telegram a été publié tous les jours de la semaine sauf le
+            dimanche du 9 juin 1898 au 21 août 1907. Il était la continuation du Daily Nor’Wester
+            (1894) et a été continué par The Winnipeg Telegram. Un numéro spécial du journal appelé
+            The Winnipeg Women's Paper a été publié gracieusement par le Morning Telegram le 8 mai
+            1907. Ses articles ont été réimprimés en 1929 dans un livret intitulé Pioneer Winnipeg
+            Women's Work, par Minnie J. B. Campbell. C'est cette deuxième version qui a été
+            numérisée car aucun exemplaire intégral de l'original du 8 mai 1907 ne semble exister. </history>
+        <history lang="en">The Morning Telegram was published six times a week except Sundays from
+            June 9, 1898 until August 21, 1907. It was a continuation of the Daily Nor’Wester (1894)
+            and was continued by the Winnipeg Telegram. A special edition of the newspaper known as
+            the Winnipeg Women's Paper was published courtesy of the Morning Telegram on May 8,
+            1907. Its articles were reprinted in 1929 as a booklet entitled Pioneer Winnipeg Women's
+            Work by Minnie J. B. Campbell. It is this second version which was digitized as no
+            complete copy of the original issue of May 8, 1907 is known to exist. </history>
+    </newspaper>
+    <newspaper lang="en">
+        <name>The People's Voice</name>
+        <sortName>People's Voice</sortName>
+        <codes>
+            <code>TPV</code>
+        </codes>
+        <pubDates>
+            <start month="6" day="16" year="1894"/>
+            <end month="5" day="1" year="1897"/>
+        </pubDates>
+        <history lang="fr">The People’s Voice a été publié une fois par semaine du 16 juin 1894 au
+            1er mai 1897. Conçu comme organe du Winnipeg Trades and Labor Council, il est devenu le
+            plus important journal ouvrier de l’Ouest canadien. Après avoir été vendu à The Voice
+            Publishing Company, il a été remplacé par The Voice.</history>
+        <history lang="en">The People’s Voice was published weekly from June 16, 1894 until May 1,
+            1897. Intended to be the organ of the Winnipeg Trades and Labor Council, it became the
+            most important labour newspaper in western Canada. After being sold to The Voice
+            Publishing Company, it was replaced by The Voice. </history>
+    </newspaper>
+    <newspaper lang="en">
+        <name>The Voice</name>
+        <sortName>Voice</sortName>
+        <codes>
+            <code>TVC</code>
+        </codes>
+        <pubDates>
+            <start month="5" day="8" year="1897"/>
+            <end month="7" day="26" year="1918"/>
+        </pubDates>
+        <history lang="fr">The Voice a remplacé The People’s Voice. Il a paru une fois par semaine
+            du 8 mai 1897 au 26 juillet 1918. Son rédacteur en chef était Arthur Puttee, un
+            socialiste modéré. Mais le Trades and Labor Council l’a trouvé trop modéré et a dissous
+            le journal pour le réorganiser sous le nom de The Western Labor News.</history>
+        <history lang="en">The Voice replaced The People’s Voice. It appeared weekly from May 8,
+            1897 until July 26, 1918. Its editor was Arthur Puttee, a moderate socialist. But the
+            Trades and Labor Council found him too moderate and the paper was dissolved and
+            reorganized as The Western Labor News. </history>
+    </newspaper>
+    <newspaper lang="en">
+        <name>Minnedosa Tribune</name>
+        <sortName>Minnedosa Tribune</sortName>
+        <codes>
+            <code>MDT</code>
+        </codes>
+        <pubDates>
+            <start month="3" day="31" year="1883"/>
+        </pubDates>
+        <history lang="fr">The Minnedosa Tribune est publié une fois par semaine depuis le 31 mars
+            1883. Il était un des nombreux petits journaux ruraux qui ont vu le jour au début des
+            années 1880, mais il est un des rares à avoir duré jusqu’au vingt-et-unième siècle.</history>
+        <history lang="en">The Minnedosa Tribune has been published weekly since March 31, 1883. It
+            was one of many small rural newspapers that appeared in the early 1880s, but it is one
+            of the few that lasted into the twenty-first century. </history>
+    </newspaper>
+    <newspaper lang="en">
+        <name>Portage la Prairie Weekly</name>
+        <sortName>Portage la Prairie Weekly</sortName>
+        <codes>
+            <code>WTM</code>
+            <code>PTR</code>
+            <code>PWR</code>
+            <code>PRV</code>
+            <code>PHJ</code>
+            <code>PNR</code>
+            <code>PTN</code>
+            <code>PDN</code>
+            <code>PWN</code>
+            <code>PRV</code>
+            <code>PER</code>
+        </codes>
+        <pubDates>
+            <start month="9" day="9" year="1881"/>
+            <end month="9" day="6" year="1916"/>
+        </pubDates>
+        <history lang="fr">
+            <p>Ce journal a paru pour la première fois le 9 septembre 1881 pour une période de 35
+                ans jusqu'à son dernier numéro du 6 septembre 1916. Pour la grande partie de son
+                existence, ce fut un hebdomadaire avec l'exception de deux courtes périodes où les
+                numéros parurent deux ou trois fois par semaine. Les résidants de Portage La Prairie
+                le connurent sous plusieurs noms différents, lesquels suivent ici en ordre
+                chronologique. </p>
+            <p> Il parût pour la première fois sous le titre Portage la Prairie Weekly Tribune, le 9
+                septembre 1881. Celui-ci absorba le journal Marquette Review and Portage Times le 8
+                février 1884 et jusqu'au 29 août 1884, il fut publié sous le nouveau titre Portage
+                la Prairie Weekly Tribune and Marquette Review. Malheureusement seulement les
+                numéros de 1884 existent. Portage la Prairie Weekly Tribune-Review fut publié du 5
+                septembre 1884 jusqu’au 4 novembre 1887. Portage la Prairie Weekly Review fut publié
+                du 11 novembre 1887 au 22 décembre 1898. Portage la Prairie News and Portage la
+                Prairie Review fut publié du 2 février 1899 et s’est terminée le 26 novembre 1902.
+                Il a été publié une fois par semaine, à l’exception de la période du 4 octobre 1899
+                au 13 mai 1901, pendant laquelle il a été publié 3 fois par semaine. Portage la
+                Prairie News fut publié une fois par semaine du 3 décembre 1902 au 29 juin 1904.
+                Portage la Prairie Semi-Weekly News fut publié deux fois par semaine du 8 juillet
+                1904 au 9 janvier 1906. Portage la Prairie Review fut publié chaque mardi et
+                vendredi du 10 janvier 1906 jusqu'au 30 mars 1906. Portage la Prairie Weekly Review
+                (1906) fut publié du 6 janvier 1906 jusqu’au 6 septembre 1916. </p>
+        </history>
+        <history lang="en">
+            <p> This newspaper was first published on September 9, 1881 for a period of 35 years
+                until its last issue on September 6, 1916. During its long existence it was a weekly
+                publication with the exception of two short stints of semi-weekly or thrice weekly
+                issues. Portage La Prairie residents knew it by many different titles, listed below
+                in chronological order. </p>
+            <p> It began as the <b>Portage la Prairie Weekly Tribune</b>, first issued on September
+                9, 1881. The Tribune absorbed another newspaper, the <b>Marquette Review and Portage
+                    Times</b> on February 8, 1884 and until August 29, 1884 published under the new
+                title <b>Portage la Prairie Weekly Tribune and Marquette Review</b>. Unfortunately
+                of this early period, only the 1884 issues are known to exist. <b>Portage la Prairie
+                    Weekly Tribune-Review</b> was published September 5, 1884 to November 4, 1887.
+                    <b>Portage la Prairie Weekly Review was published November 11, 1887 to December
+                    22, 1898. Portage la Prairie News and Portage la Prairie Review</b> was
+                published from February 2, 1899 to November 26, 1902. Published weekly except for
+                the period from October 4, 1899 to May 13, 1901 when it was published 3 times
+                weekly. <b>Portage la Prairie News</b> was published weekly from December 3, 1902
+                until June 29, 1904. <b>Portage la Prairie Semi-Weekly News</b> was published from
+                July 8, 1904 until January 9, 1906. <b>Portage la Prairie Review</b> was then
+                published every Tuesday and Friday from January 10 - March 30 1906. <b>Portage la
+                    Prairie Weekly Review</b> (1906) was published from April 4, 1906 until
+                September 6, 1916. </p>
+        </history>
+    </newspaper>
+		<newspaper lang="en">
+			<name>Brandon Daily Sun</name>
+			<sortName>Brandon Daily Sun</sortName>
+			<codes>
+				<code>BDS</code>
+			</codes>
+			<pubDates>          
+				<start month="1" day="1" year="1882"/>
+				<end month="12" day="31" year="1960"/>
+			</pubDates>
+			<history lang="en">The Brandon Daily Sun began publication in 1882 and appeared until 1884 when it was replaced by the Brandon Weekly Sun. In 1897, the Daily Sun reappeared and soon became the newspaper of record for Brandon and south western Manitoba, until it was succeeded by the Brandon Sun in       1960.</history>
+			<history lang="fr">Le Brandon Daily Sun, débuta en 1882 et parut jusqu'en 1884 lorsqu'il fut remplacé par le Brandon Weekly Sun.  En 1897, le      Daily Sun recommença à être publié and devint bientôt le registre des évènements pour Brandon et le sud-ouest du Manitoba, jusqu'à  ce que le Brandon Sun lui donna suite en 1960.</history>
+		</newspaper>
+
+    <newspaper lang="en">
+        <name>Brandon Sun Weekly</name>
+        <sortName>Brandon Sun Weekly</sortName>
+        <codes>
+            <code>BSN</code>
+        </codes>
+        <pubDates>
+            <start month="1" day="19" year="1882"/>
+            <end month="7" day="1" year="1897"/>
+        </pubDates>
+        <history lang="fr">The Brandon Sun Weekly a commencé à paraître le 19 janvier 1882, alors
+            que la ville de Brandon n’était guère plus qu’une collection de tentes. Malgré tout, le
+            journal a eu du succès et a duré jusqu’au 1er juillet 1897. Peu de temps après, un
+            nouveau Sun quotidien a été établi, qui est publié encore aujourd’hui.</history>
+        <history lang="en">The Brandon Sun Weekly began publication on January 19, 1882, when the
+            city of Brandon was hardly more than a collection of tents. Nevertheless, the newspaper
+            did well and continued until July 1, 1897. Soon after a new daily Sun was established
+            and is still published today. </history>
+    </newspaper>
+    <newspaper lang="fr">
+        <name>La Liberté</name>
+        <sortName>La Liberté</sortName>
+        <codes>
+            <code>LLT</code>
+        </codes>
+        <pubDates>
+            <start month="5" day="20" year="1913"/>
+            <end/>
+        </pubDates>
+        <history lang="fr">Fondé par Adélard Langevin, archevêque de Saint-Boniface, La Liberté a
+            publié son premier numéro le 20 mai 1913 et est le plus vieil hebdomadaire français au
+            Manitoba. Journal engagé, La Liberté était la voix de la population francophone du
+            Manitoba et le défenseur de ses droits linguistiques et religieux, et il a fini par
+            forcer ses principaux rivaux, Le Manitoba et Le Soleil de l’Ouest, à cesser de publier.
+            Publié encore aujourd’hui, il se concentre principalement sur les nouvelles et
+            informations qui intéressent les francophones de la province.</history>
+        <history lang="en">Manitoba’s longest-running French-language weekly, La Liberté was
+            founded by Adélard Langevin, Archbishop of St. Boniface, and first appeared May 20,
+            1913. A crusading newspaper, La Liberté was the voice of the French-speaking population
+            of Manitoba and defender of its linguistic and religious rights, forcing its principal
+            rivals, Le Manitoba and Le Soleil de l’Ouest, to eventually cease publication. Still
+            published today, its focus is on news and information for the province's francophones.
+        </history>
+    </newspaper>
+    <newspaper lang="fr">
+        <name>Le Métis</name>
+        <sortName>Le Métis</sortName>
+        <codes>
+            <code>LMT</code>
+        </codes>
+        <pubDates>
+            <start month="5" day="27" year="1871"/>
+            <end month="9" day="29" year="1881"/>
+        </pubDates>
+        <history lang="fr">Fondé le 27 mai 1871 par Joseph Royal, un avocat et journaliste né au
+            Québec, et édité par Royal et Joseph Dubuc, Le Métis a été le premier hebdomadaire
+            français de la province. Il a été publié régulièrement jusqu’au 29 septembre 1881, puis
+            remplacé par Le Manitoba. Journal conservateur, il visait à défendre les droits fonciers
+            des Métis, encourager l’immigration canadienne française au Manitoba et promouvoir le
+            fédéralisme et la cause catholique française.</history>
+        <history lang="en">Founded May 27, 1871 by Québec-born lawyer and journalist Joseph Royal
+            and edited by Royal and Joseph Dubuc, Le Métis was the province’s first French-language
+            weekly newspaper. It was published regularly until September 29, 1881 when it was
+            replaced by Le Manitoba. A Conservative newspaper, it sought to defend Métis land
+            rights, encourage French-Canadian immigration to Manitoba, and promote federalism and
+            the French-Catholic cause. </history>
+    </newspaper>
+    <newspaper lang="fr">
+        <name>Le Manitoba</name>
+        <sortName>Le Manitoba</sortName>
+        <codes>
+            <code>LMJ</code>
+            <code>LMS</code>
+            <code>LMB</code>
+            <code>LMD</code>
+        </codes>
+        <pubDates>
+            <start month="10" day="13" year="1881"/>
+            <end year="1925"/>
+        </pubDates>
+        <history lang="fr">
+            <p> Le Manitoba a pris la relève du Métis en 1881, son nouveau titre reflétant
+                l’évolution de la démographie de la province. Il a disparu en 1925, perdant une
+                bataille durement menée contre l’hebdomadaire conservateur soutenu par l’Église, La
+                Liberté. </p>
+            <p> Du 13 octobre 1881 au 15 octobre 1882 inclusivement, il a publié une édition
+                hebdomadaire. Du 26 octobre 1882 au 18 octobre 1883, il a été publié sous forme
+                bihebdomadaire seulement. Pendant une courte période, soit du 18 octobre 1883 au 10
+                janvier 1884, il a publié à la fois une édition hebdomadaire et une édition
+                bihebdomadaire. Du 17 janvier 1884 à 1925, il a été publié seulement une fois par
+                semaine. </p>
+        </history>
+        <history lang="en">
+            <p> Le Manitoba took over from Le Métis in 1881 its new title reflecting the changing
+                demographic make-up of the province. It disappeared in 1925, losing a hard-fought
+                battle against the Church-supported Conservative weekly, La Liberté. </p>
+            <p> Weekly editions are available from October 13, 1881 to October 5, 1882 inclusive. It
+                is published in a semi weekly format only from October 26, 1882 to October 18, 1883.
+                For a short period, October 18, 1883 to January 10, 1884, it is published in both
+                semi weekly and weekly editions. From January 17, 1884 until 1925, it is published
+                weekly only. </p>
+        </history>
+    </newspaper>
+    <newspaper lang="fr">
+        <name>Ouest Canadien</name>
+        <sortName>Ouest Canadien</sortName>
+        <codes>
+            <code>OCD</code>
+        </codes>
+        <pubDates>
+            <start month="2" day="14" year="1889"/>
+            <end month="8" day="14" year="1889"/>
+        </pubDates>
+        <history lang="fr">Le Courrier de l’Ouest a été publié une fois par semaine à
+            Saint-Boniface du 14 février au 14 août 1889, après quoi Prendergast a quitté le cabinet
+            libéral à cause des plans du gouvernement d’abolir le bilinguisme officiel et le
+            financement provincial des écoles confessionnelles.</history>
+        <history lang="en">Le Courrier de l’Ouest was published weekly in St. Boniface from
+            February 14 to August 14, 1889, when Prendergast left the Liberal cabinet because of the
+            government’s plans to abolish official bilingualism and provincial funding to
+            denominational schools. </history>
+    </newspaper>
+    <newspaper lang="fr">
+        <name>Libre Parole</name>
+        <!--<name>Libre Parole 1916-1919</name>-->
+        <sortName>Libre Parole</sortName>
+        <codes>
+            <code>LPR</code>
+        </codes>
+        <pubDates>
+            <start month="3" day="9" year="1916"/>
+            <end year="1919"/>
+        </pubDates>
+        <history lang="fr">
+            La Libre Parole, un hebdomadaire, a commencé le 4 mai 1916. De plus 
+            grand format et de composition plus soignée que ses prédécesseurs, ce 
+            journal libéral n’a pas réussi à concurrencer ses rivaux conservateurs 
+            Le Manitoba et La Liberté et a cessé de paraître en 1919.
+            <br/>    
+            La collection numérisée va jusqu’au numéro du 20 septembre 1917.
+            
+        </history>
+        <history lang="en">
+            <p> La Libre parole, a weekly, started May 4, 1916. Larger and more carefully laid-out
+                than its predecessors, this Liberal newspaper could not compete with its
+                Conservative rivals Le Manitoba and La Liberté and ceased publication in 1919. </p>
+            <p> This digitized collection ends with the September 20, 1917 issue.</p>
+        </history>
+    </newspaper>
+    <newspaper lang="fr">
+        <name>Echo du Manitoba</name>
+        <sortName>Echo du Manitoba</sortName>
+        <codes>
+            <code>LDM</code>
+            <code>EDM</code>
+        </codes>
+        <pubDates>
+            <start month="1" day="27" year="1898"/>
+            <end month="7" day="20" year="1905"/>
+        </pubDates>
+        <history lang="fr">Hebdomadaire fondé le 27 janvier 1898 par un groupe de libéraux dont le
+            député fédéral de Morris Alphonse Martin, l’Écho du Manitoba avait un but précis. La
+            victoire de Laurier au fédéral et le compromis Laurier-Greenway de 1897 avaient
+            revitalisé le Parti libéral francophone au Manitoba, qui avait besoin d’un organe
+            officiel. Son programme était simple : « Notre race, notre langue, notre religion ». Le
+            dernier numéro a paru le 20 juillet 1905, quand son rédacteur en chef Henri
+            d’Hellencourt a quitté le Manitoba pour le Québec.</history>
+        <history lang="en">A weekly founded January 27, 1898 by a group of Liberals including
+            Morris M.P. Alphonse Martin, l’Écho du Manitoba had a specific goal. Laurier’s victory
+            at the federal level and the Laurier-Greenway compromise of 1897 had revived the French
+            Liberal party in Manitoba, which needed an official organ. Its program was simple: “our
+            race, our language, our religion”. The last issue was published on July 20, 1905, when
+            its editor Henri d’Hellencourt left Manitoba for Québec.</history>
+    </newspaper>
+    <newspaper lang="en">
+        <name>Winnipeg Citizen</name>
+        <sortName>Winnipeg Citizen</sortName>
+        <codes>
+            <code>TWC</code>
+        </codes>
+        <pubDates>
+            <start month="5" day="19" year="1919"/>
+            <end month="6" day="20" year="1919"/>
+        </pubDates>
+        <history lang="fr">The Winnipeg Citizen a paru tous les jours du 19 mai 1919 au 20 juin
+            1919, publié par le Citizens’ Committee of One Thousand durant la grève générale de
+            Winnipeg. Il était farouchement opposé à la grève et accusait régulièrement les meneurs
+            de la grève d’inciter à la révolution. </history>
+        <history lang="en">The Winnipeg Citizen was published daily from May 19, 1919 to June 20,
+            1919 Published during Winnipeg General Strike, by Citizen's Committee of One Thousand.
+            It was fiercely opposed to the strike and regularly accused the strike leaders of trying
+            to start a revolution. </history>
+    </newspaper>
+    <newspaper lang="en">
+        <name>Winnipeg Telegram Strike Editions</name>
+        <!--<name>Winnipeg Telegram - Strike Edition</name>-->
+        <sortName>Winnipeg Telegram Strike Editions</sortName>
+        <codes>
+            <code>TWT</code>
+        </codes>
+        <pubDates>
+            <start month="5" day="28" year="1919"/>
+            <end month="6" day="28" year="1919"/>
+        </pubDates>
+        <history lang="fr">
+            <p>Le quotidien The Winnipeg Telegram a publié une édition de grève du 28 mai au 28 juin
+                1919. Ses numéros spéciaux de grève accusaient les meneurs de la grève d’être des
+                bolcheviques révolutionnaires et il était clairement opposé à la grève. </p>
+            <p> Nous avons numérisé les éditions de grève du Winnipeg Telegram afin d’appuyer les
+                textes thématiques. À titre d’information générale, veuillez noter que le Winnipeg
+                Telegram était un quotidien qui a été publié du 22 août 1907 au 16 octobre 1920.
+            </p>
+        </history>
+        <history lang="en">
+            <p>Strike editions of the daily Winnipeg Telegram were published from May 28 to June 28,
+                1919. Its special strike issues attacked the strike leaders as Bolshevik
+                revolutionaries and it was clearly opposed to the strike. </p>
+            <p> The strike editions of the Winnipeg Telegram were digitized to support the thematic
+                material. As background information, please note that the Winnipeg Telegram
+                newspaper was a daily published from August 22, 1907 to October 16, 1920. </p>
+        </history>
+    </newspaper>
+    <newspaper lang="en">
+        <name>Western Labor News</name>
+        <sortName>Western Labor News</sortName>
+        <codes>
+            <code>WLN</code>
+        </codes>
+        <pubDates>
+            <start month="4" day="4" year="1919"/>
+            <end month="9" day="5" year="1919"/>
+        </pubDates>
+        <history lang="fr">
+            <p>The Western Labor News a publié une édition de grève tous les jours du 17 mai 1919 au
+                23 juin 1919. Il a publié deux éditions trois jours particuliers, soit le 17 mai, le
+                17 juin et le 20 juin 1919. Nous avons aussi inclus dans la collection numérisée
+                d’autres numéros du Western Labor News qui sont liés à la grève, soit ceux du 4
+                avril, du 27 juin et du 5 septembre 1919. </p>
+            <p> Nous avons numérisé les éditions de grève du Western Labor News afin d’appuyer les
+                textes thématiques. À titre d’information générale, veuillez noter que The Western
+                Labor News a remplacé The Voice comme organe du Winnipeg Trades and Labor Council et
+                a été publié du 2 août 1918 au 13 avril 1923. </p>
+        </history>
+        <history lang="en">
+            <p>Strike editions of the Western Labor News were published daily from May 17, 1919
+                until June 23, 1919. Double editions were published on three separate days, May 17,
+                June 17 and June 20, 1919. Strike related Western Labor News issues from April 4,
+                June 27 and September 5, 1919 have also been included in this digitized collection. </p>
+            <p> The strike editions of the Western Labor News were digitized to support the thematic
+                material. As background information, please note that The Western Labor News
+                replaced The Voice as the organ of the Winnipeg Trades and Labor Council and was
+                published from August 2 1918 to April 13, 1923. </p>
+        </history>
+    </newspaper>
+    <newspaper lang="en">
+        <name>The Western Star</name>
+        <sortName>Western Star</sortName>
+        <codes>
+            <code>TWS</code>
+        </codes>
+        <pubDates>
+            <start month="6" day="24" year="1919"/>
+            <end month="6" day="24" year="1919"/>
+        </pubDates>
+        <history lang="fr">The Western Star a paru le 24 juin 1919 seulement. C’était une édition
+            spéciale de grève du Western Labor News, lui-même l’organe officiel du Winnipeg Trades
+            and Labor Council.</history>
+        <history lang="en">The Western Star appeared on June 24, 1919 only as a special strike
+            edition of the Western Labor News, itself the official organ of the Winnipeg Trades and
+            Labor Council.</history>
+    </newspaper>
+    <newspaper lang="en">
+        <name>The Enlightener</name>
+        <sortName>Enlightener</sortName>
+        <codes>
+            <code>TEL</code>
+        </codes>
+        <pubDates>
+            <start month="6" day="25" year="1919"/>
+            <end month="6" day="26" year="1919"/>
+        </pubDates>
+        <history lang="fr">The Enlightener a paru les 25 et 26 juin 1919 seulement. C’était une
+            édition spéciale de grève du Western Labor News, lui-même l’organe officiel du Winnipeg
+            Trades and Labor Council.</history>
+        <history lang="en">The Enlightener appeared on June 25 and 26, 1919 only as special strike
+            editions of the Western Labor News, itself the official organ of the Winnipeg Trades and
+            Labor Council.</history>
+    </newspaper>
+    <newspaper lang="en">
+        <name>The Winnipeg Socialist</name>
+        <sortName>Winnipeg Socialist</sortName>
+        <codes>
+            <code>SOC</code>
+        </codes>
+        <pubDates>
+            <start month="5" day="1" year="1921"/>
+            <end month="5" day="1" year="1921"/>
+        </pubDates>
+        <history lang="fr">The Winnipeg Socialist était publié une fois par mois par le local 5 du
+            Parti socialiste du Canada. Son édition de grève a paru le 1er mai 1921.</history>
+        <history lang="en">The Winnipeg Socialist was published monthly by Local No. 5 of the
+            Socialist Party of Canada. Its strike edition appeared on May 1, 1921. </history>
+    </newspaper>
+    <newspaper lang="en">
+        <name>One Big Union</name>
+        <sortName>One Big Union</sortName>
+        <codes>
+            <code>OBU</code>
+        </codes>
+        <pubDates>
+            <start month="8" day="30" year="1919"/>
+            <end month="8" day="30" year="1919"/>
+        </pubDates>
+        <history lang="fr">
+            <p>The One Big Union Bulletin était l’organe officiel du mouvement de la One Big Union.
+                Il était publié par le Winnipeg Central Labor Council de la OBU. Un numéro spécial
+                sur la grève générale a paru le 30 août 1919. </p>
+            <p> Nous avons numérisé l’édition de grève du Bulletin pour appuyer le texte thématique.
+                À titre d’information générale, veuillez noter que le One Big Union Bulletin a été
+                publié une fois par semaine du 12 août 1919 au 24 mai 1934. </p>
+        </history>
+        <history lang="en">
+            <p>The One Big Union Bulletin was the official organ of the One Big Union movement. It
+                was published by the Winnipeg Central Labor Council of the O.B.U. One special issue
+                about the General Strike appeared on August 30, 1919. </p>
+            <p> The strike edition of the Bulletin was digitized to support the thematic material.
+                As background information, please note that the One Big Union Bulletin was published
+                weekly from August 12, 1919 to May 24, 1934. </p>
+        </history>
+    </newspaper>
+    <newspaper lang="en">
+        <name>Strikers Defense Bulletin</name>
+        <sortName>Strikers Defense Bulletin</sortName>
+        <codes>
+            <code>SDB</code>
+        </codes>
+        <pubDates>
+            <start month="8" year="1919"/>
+            <end month="8" year="1919"/>
+        </pubDates>
+        <history lang="fr">The Strikers Defense Bulletin a été publié pour présenter la cause des
+            grévistes qui avaient été arrêtés. Il en existe un numéro, celui du 27 août 1919, dans
+            la collection de la Bibliothèque de l’Assemblée législative.</history>
+        <history lang="en">The Strikers Defense Bulletin was published to present the case of the
+            strikers who had been arrested. One issue, August 27, 1919, from the Legislative
+            Library's holdings exists.</history>
+    </newspaper>
+    <newspaper lang="en">
+        <name>Manitoba Free Press</name>
+        <sortName>Manitoba Free Press</sortName>
+        <codes>
+            <code>MFP</code>
+        </codes>
+        <pubDates>
+            <start month="11" day="30" year="1872"/>
+            <end month="5" day="18" year="1878"/>
+        </pubDates>
+        <history lang="fr">Le 9 novembre 1872, un prospectus gratuit a été distribué dans toute la
+            province « dans le but de donner aux gens un spécimen de notre journal ». Sa devise
+            était : « Liberté des échanges – Liberté de religion – Égalité des droits civils ». Les
+            éditeurs William F. Luxton et John A. Kenny expliquaient que le journal était imprimé
+            sur « la première presse à imprimer mécanique jamais amenée au nord-ouest de St. Paul,
+            Minnesota. » L’hebdomadaire a commencé à paraître le 30 novembre 1872 et a été publié
+            tous les samedis jusqu’au 18 mai 1878 sous le nom de Manitoba Free Press. Il a ensuite
+            continué sous le nom de Manitoba Weekly Free Press.</history>
+        <history lang="en">On November 9, 1872 a free prospectus was circulated throughout the
+            province "with the object of giving the people a specimen of our journal." Its motto was
+            "Freedom in trade - Liberty in religion - Equality in civil rights." The publishers
+            William F. Luxton and John A. Kenny explained that it was printed on "the first power
+            printing press ever brought northwest of St. Paul, Minn." The weekly newspaper started
+            publishing every Saturday on November 30, 1872 continuing until May 18, 1878 under the
+            title Manitoba Free Press. It then continued under the title Manitoba Weekly Free Press.
+        </history>
+    </newspaper>
+		<newspaper>
+			<name>The Winnipeg Tribune</name>
+			<sortName>Winnipeg Tribune</sortName>
+			<codes>
+				<code>WPT</code>
+			</codes>
+			<pubDates>
+				<start year="1890"/>
+				<end year="1980"/>
+			</pubDates>
+			<history lang="en">The Winnipeg Tribune, one of western Canada's oldest newspapers, ran from 1890 to 1980. The Tribune was a rival to the Winnipeg Free Press. While it had excellent coverage of local events and personalities, it also reported on national and international news.</history>
+			<history lang="fr">La Winnipeg Tribune était un des plus anciens journaux de l'ouest canadien. Publiée entre 1890 et 1980, elle rivalisait avec la Winnipeg Free Press, journal qui existe encore aujourd'hui. Les reportages sur les événements et personnages d'importance locale étaient excellents, sans pourtant négliger les nouvelles d'ordre national ou international.</history>
+		</newspaper>
+	<newspaper>
+		<name>The Manitoban</name>
+		<sortName>Manitoban</sortName>
+		<codes>
+			<code>The_Manitoban</code>
+		</codes>
+		<pubDates>
+			<start month="11" day="5" year="1914"/>
+			<end />
+		</pubDates>
+		<history lang="en">The Manitoban began publication in 1914 as the official newspaper for University of Manitoba students.   It has a variable publication schedule, but in general has been published weekly during the school year and sporadically over the summer.  It was formerly published by the University of Manitoba Students' Union, but latterly has been published by the Manitoban Newspaper Publications Corporation, an independent organization.</history>
+		<history lang="fr">The Manitoban began publication in 1914 as the official newspaper for University of Manitoba students.   It has a variable publication schedule, but in general has been published weekly during the school year and sporadically over the summer.  It was formerly published by the University of Manitoba Students' Union, but latterly has been published by the Manitoban Newspaper Publications Corporation, an independent organization.</history>
+	</newspaper>
+</newspaper_histories>

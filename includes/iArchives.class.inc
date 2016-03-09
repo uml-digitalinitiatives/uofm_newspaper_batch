@@ -5,12 +5,12 @@
  * Classes and functions related to the islandora_batch framework.
  */
 
-class UoMNewspaperBatchPreprocessor extends IslandoraBookBatch {
+class UoMIarchivesNewspaperBatchPreprocessor extends IslandoraBookBatch {
   /**
    * Inherits.
    */
   protected static function getObjectClass() {
-    return 'UoMNewspaperPaperObject';
+    return 'UoMIarchivesNewspaperPaperObject';
   }
 
   /**
@@ -30,22 +30,7 @@ class UoMNewspaperBatchPreprocessor extends IslandoraBookBatch {
   }
 }
 
-/**
- * Attempt to reparse a string into a more easily usable format.
- *
- * @param string $date_string_in
- *   A date we will pass to strtotime() to try to get a timestamp.
- *
- * @return string
- *   A string of the format YYYY-MM-DD.
- */
-function uofm_newspaper_batch_fix_date($date_string_in) {
-  $timestamp = strtotime((string) $date_string_in);
-  $date_string_out = date('Y-m-d', $timestamp);
-  return $date_string_out;
-}
-
-class UoMNewspaperPaperObject extends IslandoraFlatBatchObject {
+class UoMIarchivesNewspaperPaperObject extends UoMNewspaperPaperObject {
   /**
    * Inherits.
    */
@@ -85,6 +70,7 @@ class UoMNewspaperPaperObject extends IslandoraFlatBatchObject {
 
     // XXX: drupal_dirname() may not work with ZIP sources...
     $unit_dirname = drupal_dirname($this->objectInfo['.']['unit']->uri);
+    $title = $this->getUnit()['collection-title'];
 
     $i = 0;
     foreach ($unit->pages->{'page-ref'} as $page_ref) {
@@ -98,8 +84,9 @@ class UoMNewspaperPaperObject extends IslandoraFlatBatchObject {
         '.' => array(
           'page' => $page_obj,
         ),
+        'title' => (string) $title,
       );
-      $children[] = new UoMNewspaperPageObject($connection, $this->id, $i++,
+      $children[] = new UoMIarchivesNewspaperPageObject($connection, $this->id, $i++,
         $page_object_info, $this->preprocessorParameters);
     }
 
@@ -147,6 +134,15 @@ class UoMNewspaperPaperObject extends IslandoraFlatBatchObject {
   /**
    * Inherits.
    */
+  public function addRelationships() {
+    parent::addRelationships();
+    // If we don't know the order set them all to 1
+    $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isSequenceNumber', 1, TRUE);
+  }
+
+  /**
+   * Inherits.
+   */
   public function batchProcess() {
     // Should add the "unit.xml" as "unit".
     $parent_return = parent::batchProcess();
@@ -169,9 +165,10 @@ class UoMNewspaperPaperObject extends IslandoraFlatBatchObject {
 
     return ISLANDORA_BATCH_STATE__DONE;
   }
+  
 }
 
-class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
+class UoMIarchivesNewspaperPageObject extends UoMNewspaperPaperObject {
   protected $parentId;
 
   /**
@@ -224,7 +221,8 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
     // Grab the PDF for the page.
     $this->addPdf();
     // Grab the whatever_sm.jpg version (as JPG).
-    $this->addSmJpg();
+    // Small JPGs no longer exist by default.
+    // $this->addSmJpg();
     // Translate the page.xml to hOCR.
     $this->addHocr();
     $this->addOcr();
@@ -467,6 +465,11 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
         'php_functions' => array(
           'uofm_newspaper_batch_fix_date',
         ),
+        'parameters' => array(
+          '' => array(
+            'paperTitle' => $this->objectInfo['title'],
+          ),
+        ),
       ));
 
       if (isset($mods->content)) {
@@ -509,6 +512,7 @@ class UoMNewspaperPageObject extends IslandoraFlatBatchObject {
     $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isPageOf', $this->parentId);
     $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isSequenceNumber', $this->getPageNumber(), TRUE);
     $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isPageNumber', $this->getPageNumber(), TRUE);
+    parent::inheritXacmlPolicies();
   }
 
   /**

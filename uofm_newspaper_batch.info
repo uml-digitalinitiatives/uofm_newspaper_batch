@@ -6,6 +6,9 @@ core = 7.x
 dependencies[] = islandora_batch
 dependencies[] = islandora_book_batch
 dependencies[] = islandora_large_image
-files[] = includes/batch.process.inc
+dependencies[] = manidora
+files[] = includes/uofm_base.class.inc
+files[] = includes/iArchives.class.inc
+files[] = includes/Olive.class.inc
 php = 5.3
 
