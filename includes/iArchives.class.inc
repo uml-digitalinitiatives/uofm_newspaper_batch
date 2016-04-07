@@ -224,8 +224,10 @@ class UoMIarchivesNewspaperPageObject extends UoMNewspaperPaperObject {
     // Small JPGs no longer exist by default.
     // $this->addSmJpg();
     // Translate the page.xml to hOCR.
-    $this->addHocr();
-    $this->addOcr();
+    if (!$this->preprocessorParameters['generate_ocr'] == "n") {
+      $this->addHocr();
+      $this->addOcr();
+    }
 
     return ISLANDORA_BATCH_STATE__DONE;
   }
@@ -506,12 +508,18 @@ class UoMIarchivesNewspaperPageObject extends UoMNewspaperPaperObject {
    * Inherits.
    */
   public function addRelationships() {
+    module_load_include('inc', 'islandora_paged_content', 'includes/utilities');
     $this->models = "islandora:newspaperPageCModel";
-    // @todo Add hasLanguage?
-    $this->relationships->add(FEDORA_RELS_EXT_URI, 'isMemberOf', $this->parentId);
-    $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isPageOf', $this->parentId);
-    $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isSequenceNumber', $this->getPageNumber(), TRUE);
-    $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isPageNumber', $this->getPageNumber(), TRUE);
+    $relsext = $this->relationships;
+    islandora_paged_content_set_relationship($relsext, ISLANDORA_RELS_EXT_URI, 'hasLanguage', $this->preprocessorParameters['language'], TRUE);
+    if ($this->preprocessorParameters['generate_ocr']) {
+      module_load_include('inc', 'islandora_ocr', 'includes/derivatives');
+      islandora_ocr_set_generate_ocr_rels_ext_statement($this, TRUE);
+    }
+    islandora_paged_content_set_relationship($relsext, FEDORA_RELS_EXT_URI, 'isMemberOf', $this->parentId);
+    islandora_paged_content_set_relationship($relsext, ISLANDORA_RELS_EXT_URI, 'isPageOf', $this->parentId);
+    islandora_paged_content_set_relationship($relsext, ISLANDORA_RELS_EXT_URI, 'isSequenceNumber', $this->getPageNumber(), TRUE);
+    islandora_paged_content_set_relationship($relsext, ISLANDORA_RELS_EXT_URI, 'isPageNumber', $this->getPageNumber(), TRUE);
     parent::inheritXacmlPolicies();
   }
 

@@ -36,6 +36,14 @@ function uofm_newspaper_batch_drush_command() {
         'description' => 'The collection to which the generated items should be added.  Only applies to the "newspaper issue" level object.',
         'value' => 'optional',
       ),
+      'generate_ocr' => array(
+        'description' => 'Generate OCR for pages. Default is "yes".',
+        'value' => 'optional',
+      ),
+      'language' => array(
+        'description' => 'Language to use for tesseract when generating OCR and HOCR. Defaults to eng.',
+        'value' => 'optional',
+      ),
       'parent_relationship_uri' => array(
         'description' => 'The namespace URI of the relationship to the parent. Defaults to "info:fedora/fedora-system:def/relations-external#".',
         'value' => 'optional',
@@ -69,12 +77,27 @@ function uofm_newspaper_batch_drush_command() {
 function drush_uofm_newspaper_batch_preprocess() {
   // Build one of our preprocessors.
   $connection = islandora_get_tuque_connection();
+  if (!module_exists('islandora_ocr')) {
+    $generate_ocr = FALSE;
+  }
+  else {
+    $language = drush_get_option('language', 'eng');
+    module_load_include('inc', 'islandora_ocr', 'includes/utilities');
+    $langs = islandora_ocr_get_tesseract_installed_languages();
+    if (!in_array($language, $langs)) {
+      return drush_set_error(t('!lang is not an installed language in tesseract', array('!lang' => $language)));
+    }
+    $generate_ocr = (substr(strtolower(drush_get_option('generate_ocr', 'y')),0,1) == 'y');
+  }
+  
   $parameters = array(
     'type' => 'directory',
     'target' => drush_get_option('target'),
     'parent' => drush_get_option('parent', 'islandora:newspaperCollection'),
     'parent_relationship_uri' => drush_get_option('parent_relationship_uri', 'info:fedora/fedora-system:def/relations-external#'),
     'parent_relationship_pred' => drush_get_option('parent_relationship_pred', 'isMemberOf'),
+    'generate_ocr' => $generate_ocr,
+    'language' => $language,
     'wait_for_metadata' => FALSE,
     'directory_dedup' => FALSE,
     'namespace' => drush_get_option('namespace', NULL),
