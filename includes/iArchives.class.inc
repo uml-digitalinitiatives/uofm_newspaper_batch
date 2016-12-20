@@ -224,7 +224,7 @@ class UoMIarchivesNewspaperPageObject extends UoMNewspaperPaperObject {
     // Small JPGs no longer exist by default.
     // $this->addSmJpg();
     // Translate the page.xml to hOCR.
-    if (!$this->preprocessorParameters['generate_ocr'] == "n") {
+    if (!$this->preprocessorParameters['generate_ocr']) {
       $this->addHocr();
       $this->addOcr();
     }
@@ -288,12 +288,14 @@ class UoMIarchivesNewspaperPageObject extends UoMNewspaperPaperObject {
   protected function addPdf() {
     if (!isset($this['PDF'])) {
       // Add the pdf (if it isn't already on the object).
-      $obj = $this->constructDatastream('PDF', 'M');
-      $obj->label = 'Newspaper page PDF';
-      $obj->mimetype = 'application/pdf';
-      $obj->setContentFromFile($this->findPdf(), FALSE);
-
-      $this->ingestDatastream($obj);
+      $pdf = $this->findPdf();
+      if (!is_null($pdf)) {
+        $obj = $this->constructDatastream('PDF', 'M');
+        $obj->label = 'Newspaper page PDF';
+        $obj->mimetype = 'application/pdf';
+        $obj->setContentFromFile($pdf, FALSE);
+        $this->ingestDatastream($obj);
+      }
     }
 
     return $this['PDF'];
@@ -333,12 +335,14 @@ class UoMIarchivesNewspaperPageObject extends UoMNewspaperPaperObject {
   protected function addSmJpg() {
     if (!isset($this['JPG'])) {
       // Add the sm_jpg (if it isn't already on the object).
-      $obj = $this->constructDatastream('JPG', 'M');
-      $obj->label = 'Newspaper page';
-      $obj->mimetype = 'image/jpeg';
-      $obj->setContentFromFile($this->findSmJpg(), FALSE);
-
-      $this->ingestDatastream($obj);
+      $jpg = $this->findSmJpg();
+      if (!is_null($jpg)) {
+        $obj = $this->constructDatastream('JPG', 'M');
+        $obj->label = 'Newspaper page';
+        $obj->mimetype = 'image/jpeg';
+        $obj->setContentFromFile($jpg, FALSE);
+        $this->ingestDatastream($obj);
+      }
     }
 
     return $this['JPG'];

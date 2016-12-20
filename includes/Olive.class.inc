@@ -125,6 +125,15 @@ class UoMOliveNewspaperPaperObject extends UoMNewspaperPaperObject {
   /**
    * Inherits.
    */
+  public function addRelationships() {
+    parent::addRelationships();
+    // If we don't know the order set them all to 1
+    $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isSequenceNumber', 1, TRUE);
+  }
+
+  /**
+   * Inherits.
+   */
   public function batchProcess() {
     // Should add the "unit.xml" as "unit".
     $parent_return = parent::batchProcess();
@@ -506,6 +515,7 @@ class UoMOliveNewspaperPageObject extends UoMNewspaperPaperObject {
     $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isPageOf', $this->parentId);
     $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isSequenceNumber', $this->getPageNumber(), TRUE);
     $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isPageNumber', $this->getPageNumber(), TRUE);
+    parent::inheritXacmlPolicies();
   }
 
   /**

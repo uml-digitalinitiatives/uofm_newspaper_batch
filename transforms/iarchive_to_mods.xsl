@@ -17,7 +17,8 @@
         <xsl:apply-templates mode="title"/>
       </titleInfo>
 
-      <typeOfResource>newspaper</typeOfResource>
+      <typeOfResource>text</typeOfResource>
+      <genre>newspaper</genre>
 
       <originInfo>
         <issuance>continuing</issuance>
