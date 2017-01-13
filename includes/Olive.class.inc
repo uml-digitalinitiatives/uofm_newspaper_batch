@@ -242,12 +242,13 @@ class UoMOliveNewspaperPageObject extends UoMNewspaperPaperObject {
         }
       }
       if (empty($tiff_name)) {
-        throw new Exception("Could not locate Tiff filename in file @f",
-          array("@f" => $this->objectInfo['.']['page']->uri));
+        throw new Exception(t("Could not locate Tiff filename in file @f",
+          array("@f" => $this->objectInfo['.']['page']->uri)));
       }
       // Because all filenames are the same we have to switch in the
       // correct page number and the case is wrong 
       $new_file = str_pad($this->getPageNumber(), 3, '0', STR_PAD_LEFT);
+      $tiff_name = str_replace('001-SINGLEX', $new_file . '-Single', $tiff_name);
       $tiff_name = str_replace('001-SINGLE', $new_file . '-Single', $tiff_name);
       
       // Get the URI of the page.xml.
@@ -260,18 +261,33 @@ class UoMOliveNewspaperPageObject extends UoMNewspaperPaperObject {
       // array_splice($components, -5, 0, 'TIFFS');
       // Change "pages" to "Archival_Images".
       array_splice($components, -4, 4, 'Archival_images');
+      if (!file_exists(implode('/', $components))) {
+        array_splice($components, -1, 1, 'Archival_Images');
+        if (!file_exists(implode('/', $components))) {
+          throw new Exception(t("Could not located file @f on filesystem", array('@f' => implode('/', $components))));
+        }
+      }
 
       // Change the file extension.
       $components[] = $tiff_name . '.tif';
+      if (file_exists(implode('/', $components) . '/' . $tiff_name . '.tif')) {
+        $filename = implode('/', $components) . '/' . $tiff_name . '.tif';
+      }
+      elseif (file_exists(implode('/', $components) . '/' . $tiff_name . 'x.tif')) {
+        $filename = implode('/', $components) . '/' . $tiff_name . 'x.tif';
+      }
+      else {
+        throw new Exception("Could not find Tiff file {$this->tiffPath}");
+      }
 
-      $this->tiffPath = implode('/', $components);
+      $this->tiffPath = $filename;
 
     }
     if (file_exists($this->tiffPath)) {
       return $this->tiffPath;
     }
     else {
-      return FALSE;
+      throw new Exception("Could not find Tiff file {$this->tiffPath}");
     }
   }
 
