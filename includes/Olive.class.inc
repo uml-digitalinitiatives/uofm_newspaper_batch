@@ -269,7 +269,6 @@ class UoMOliveNewspaperPageObject extends UoMNewspaperPaperObject {
       }
 
       // Change the file extension.
-      $components[] = $tiff_name . '.tif';
       if (file_exists(implode('/', $components) . '/' . $tiff_name . '.tif')) {
         $filename = implode('/', $components) . '/' . $tiff_name . '.tif';
       }
@@ -277,7 +276,7 @@ class UoMOliveNewspaperPageObject extends UoMNewspaperPaperObject {
         $filename = implode('/', $components) . '/' . $tiff_name . 'x.tif';
       }
       else {
-        throw new Exception("Could not find Tiff file {$this->tiffPath}");
+        throw new Exception("Could not find Tiff file " . implode('/', $components) . '/' . $tiff_name . '(x).tif');
       }
 
       $this->tiffPath = $filename;
@@ -287,7 +286,7 @@ class UoMOliveNewspaperPageObject extends UoMNewspaperPaperObject {
       return $this->tiffPath;
     }
     else {
-      throw new Exception("Could not find Tiff file {$this->tiffPath}");
+      throw new Exception("Could not find Tiff file " . implode('/', $components) . '/' . $tiff_name . '(x).tif');
     }
   }
 
