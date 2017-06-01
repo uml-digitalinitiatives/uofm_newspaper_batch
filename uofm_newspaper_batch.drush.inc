@@ -36,8 +36,8 @@ function uofm_newspaper_batch_drush_command() {
         'description' => 'The collection to which the generated items should be added.  Only applies to the "newspaper issue" level object.',
         'value' => 'optional',
       ),
-      'generate_ocr' => array(
-        'description' => 'Generate OCR for pages. Default is "yes".',
+      'do_not_generate_ocr' => array(
+        'description' => 'Skip generate HOCR/OCR for pages.',
         'value' => 'optional',
       ),
       'language' => array(
@@ -87,9 +87,9 @@ function drush_uofm_newspaper_batch_preprocess() {
     if (!in_array($language, $langs)) {
       return drush_set_error(t('!lang is not an installed language in tesseract', array('!lang' => $language)));
     }
-    $generate_ocr = (substr(strtolower(drush_get_option('generate_ocr', 'y')),0,1) == 'y');
+    $generate_ocr = (bool) (is_null(drush_get_option('do_not_generate_ocr', NULL)));
   }
-  
+
   $parameters = array(
     'type' => 'directory',
     'target' => drush_get_option('target'),
@@ -185,7 +185,7 @@ EOQ;
     );
     $counter += 1;
   }
-  
+
   $batch = array(
     'operations' => $operations,
     'finished' => '_uofm_newspaper_batch_fix_sequence_finished',

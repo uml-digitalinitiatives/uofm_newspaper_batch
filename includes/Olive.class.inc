@@ -65,7 +65,7 @@ class UoMOliveNewspaperPaperObject extends UoMNewspaperPaperObject {
 
     $i = 0;
     foreach ($toc->xpath('//Page') as $page_ref) {
-      
+
       // Synthesize the "object_info" structure.
       $page_obj = new stdClass();
       $page_obj->uri = $toc_dirname . $page_ref['HREF'] . ".xml";
@@ -245,12 +245,9 @@ class UoMOliveNewspaperPageObject extends UoMNewspaperPaperObject {
         throw new Exception(t("Could not locate Tiff filename in file @f",
           array("@f" => $this->objectInfo['.']['page']->uri)));
       }
-      // Because all filenames are the same we have to switch in the
-      // correct page number and the case is wrong 
-      $new_file = str_pad($this->getPageNumber(), 3, '0', STR_PAD_LEFT);
-      $tiff_name = str_replace('001-SINGLEX', $new_file . '-Single', $tiff_name);
-      $tiff_name = str_replace('001-SINGLE', $new_file . '-Single', $tiff_name);
-      
+      // Files seem to just be in order.
+      $tiff_name = preg_replace('/\-[0-9]{3}\-SINGLEX?$/i', "", $tiff_name);
+
       // Get the URI of the page.xml.
       $page_uri = $this->objectInfo['.']['page']->uri;
       // Break into components.
@@ -268,16 +265,8 @@ class UoMOliveNewspaperPageObject extends UoMNewspaperPaperObject {
         }
       }
 
-      // Change the file extension.
-      if (file_exists(implode('/', $components) . '/' . $tiff_name . '.tif')) {
-        $filename = implode('/', $components) . '/' . $tiff_name . '.tif';
-      }
-      elseif (file_exists(implode('/', $components) . '/' . $tiff_name . 'x.tif')) {
-        $filename = implode('/', $components) . '/' . $tiff_name . 'x.tif';
-      }
-      else {
-        throw new Exception("Could not find Tiff file " . implode('/', $components) . '/' . $tiff_name . '(x).tif');
-      }
+      $pattern = implode('/', $components) . "/{$tiff_name}-*";
+      $filename = $this->getFileXOfPattern($pattern, $this->getPageNumber());
 
       $this->tiffPath = $filename;
 
@@ -288,6 +277,31 @@ class UoMOliveNewspaperPageObject extends UoMNewspaperPaperObject {
     else {
       throw new Exception("Could not find Tiff file " . implode('/', $components) . '/' . $tiff_name . '(x).tif');
     }
+  }
+
+  /**
+   * Get the Nth file matching the pattern.
+   *
+   * @param string $pattern
+   *   Pattern to get files matching.
+   * @param int $position
+   *   The position to return.
+   * @return string
+   *   The filename.
+   * @throws \Exception
+   *   If the file does not exist, die right here and now.
+   */
+  private function getFileXOfPattern($pattern, $position) {
+    $files = glob($pattern);
+    if (count($files) >= $position) {
+        return $files[($position - 1)];
+    }
+    throw new Exception(t("Could not find the page Tiff for pattern (@p) and position (@i)",
+        array(
+            '@p' => $pattern,
+            '@i' => $position,
+        )
+    ));
   }
 
   /**
@@ -405,7 +419,7 @@ class UoMOliveNewspaperPageObject extends UoMNewspaperPaperObject {
           if ($k == 'PAGE_NO') {
             $page_number = $v;
             break;
-            
+
           }
         }
       }
@@ -524,12 +538,21 @@ class UoMOliveNewspaperPageObject extends UoMNewspaperPaperObject {
    * Inherits.
    */
   public function addRelationships() {
+    module_load_include('inc', 'islandora_paged_content', 'includes/utilities');
+    module_load_include('inc', 'islandora_ocr', 'includes/derivatives');
     $this->models = "islandora:newspaperPageCModel";
-    // @todo Add hasLanguage?
+    $relsext = $this->relationships;
+    islandora_paged_content_set_relationship($relsext, ISLANDORA_RELS_EXT_URI, 'hasLanguage', $this->preprocessorParameters['language'], TRUE);
     $this->relationships->add(FEDORA_RELS_EXT_URI, 'isMemberOf', $this->parentId);
     $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isPageOf', $this->parentId);
     $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isSequenceNumber', $this->getPageNumber(), TRUE);
     $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isPageNumber', $this->getPageNumber(), TRUE);
+    if (isset($this->preprocessorParameters['generate_ocr'])) {
+      islandora_ocr_set_generate_ocr_rels_ext_statement($this, $this->preprocessorParameters['generate_ocr']);
+    }
+    else {
+      islandora_ocr_set_generate_ocr_rels_ext_statement($this, TRUE);
+    }
     parent::inheritXacmlPolicies();
   }
 

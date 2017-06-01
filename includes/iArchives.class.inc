@@ -165,7 +165,7 @@ class UoMIarchivesNewspaperPaperObject extends UoMNewspaperPaperObject {
 
     return ISLANDORA_BATCH_STATE__DONE;
   }
-  
+
 }
 
 class UoMIarchivesNewspaperPageObject extends UoMNewspaperPaperObject {
@@ -513,12 +513,15 @@ class UoMIarchivesNewspaperPageObject extends UoMNewspaperPaperObject {
    */
   public function addRelationships() {
     module_load_include('inc', 'islandora_paged_content', 'includes/utilities');
+    module_load_include('inc', 'islandora_ocr', 'includes/derivatives');
     $this->models = "islandora:newspaperPageCModel";
     $relsext = $this->relationships;
     islandora_paged_content_set_relationship($relsext, ISLANDORA_RELS_EXT_URI, 'hasLanguage', $this->preprocessorParameters['language'], TRUE);
-    if ($this->preprocessorParameters['generate_ocr']) {
-      module_load_include('inc', 'islandora_ocr', 'includes/derivatives');
-      islandora_ocr_set_generate_ocr_rels_ext_statement($this, TRUE);
+    if (isset($this->preprocessorParameters['generate_ocr'])) {
+      islandora_ocr_set_generate_ocr_rels_ext_statement($this, $this->preprocessorParameters['generate_ocr']);
+    }
+    else {
+        islandora_ocr_set_generate_ocr_rels_ext_statement($this, TRUE);
     }
     islandora_paged_content_set_relationship($relsext, FEDORA_RELS_EXT_URI, 'isMemberOf', $this->parentId);
     islandora_paged_content_set_relationship($relsext, ISLANDORA_RELS_EXT_URI, 'isPageOf', $this->parentId);
