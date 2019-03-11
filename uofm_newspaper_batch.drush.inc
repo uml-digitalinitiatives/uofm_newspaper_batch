@@ -16,10 +16,6 @@ function uofm_newspaper_batch_drush_command() {
     'description' => 'Preprocesses newspapers from IArchive folder structure into database entries.',
     'drupal dependencies' => array('uofm_newspaper_batch'),
     'options' => array(
-      'target' => array(
-        'description' => 'The target to directory to scan.',
-        'required' => TRUE,
-      ),
       'xml_type' => array(
         'description' => 'The version of XML used by the ingested newspaper. Currently only "iarchives" and "olive" are supported.',
         'required' => TRUE,
@@ -55,6 +51,22 @@ function uofm_newspaper_batch_drush_command() {
     ),
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_LOGIN,
   );
+  // XXX: The target parameter became reserved in Drush 7 and above, for
+  // backwards compatibility both will be supported. Not using
+  // strict-option-handling (http://www.drush.org/en/master/strict-options) as
+  // it requires manual argument parsing.
+  if (DRUSH_VERSION >= 7) {
+    $items['uofm_newspaper_batch_preprocess']['options']['scan_target'] = array(
+      'description' => 'The target to directory to scan.',
+      'required' => TRUE,
+    );
+  }
+  else {
+    $items['uofm_newspaper_batch_preprocess']['options']['target'] = array(
+      'description' => 'The target to directory to scan.',
+      'required' => TRUE,
+    );
+  }
   $items['uofm_newspaper_batch_sequence'] = array(
     'aliases' => array('uofm_np_seq'),
     'description' => 'Fixes isSequenceNumber elements by re-adding them to all newspaperIssue elements of the specified newspaper',
@@ -92,7 +104,7 @@ function drush_uofm_newspaper_batch_preprocess() {
 
   $parameters = array(
     'type' => 'directory',
-    'target' => drush_get_option('target'),
+    'target' => DRUSH_VERSION >= 7 ? drush_get_option('scan_target') : drush_get_option('target'),
     'parent' => drush_get_option('parent', 'islandora:newspaperCollection'),
     'parent_relationship_uri' => drush_get_option('parent_relationship_uri', 'info:fedora/fedora-system:def/relations-external#'),
     'parent_relationship_pred' => drush_get_option('parent_relationship_pred', 'isMemberOf'),

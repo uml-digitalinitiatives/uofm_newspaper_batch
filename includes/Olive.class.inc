@@ -548,10 +548,10 @@ class UoMOliveNewspaperPageObject extends UoMNewspaperPaperObject {
     $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isSequenceNumber', $this->getPageNumber(), TRUE);
     $this->relationships->add(ISLANDORA_RELS_EXT_URI, 'isPageNumber', $this->getPageNumber(), TRUE);
     if (isset($this->preprocessorParameters['generate_ocr'])) {
-      islandora_ocr_set_generate_ocr_rels_ext_statement($this, $this->preprocessorParameters['generate_ocr']);
+      islandora_ocr_set_generating_rels_ext_statements($this, $this->preprocessorParameters['generate_ocr'], $this->preprocessorParameters['generate_ocr'], $this->preprocessorParameters['language']);
     }
     else {
-      islandora_ocr_set_generate_ocr_rels_ext_statement($this, TRUE);
+      islandora_ocr_set_generating_rels_ext_statements($this, TRUE, TRUE, $this->preprocessorParameters['language']);
     }
     parent::inheritXacmlPolicies();
   }
