@@ -516,9 +516,8 @@ class UoMIarchivesNewspaperPageObject extends UoMNewspaperPaperObject {
     module_load_include('inc', 'islandora_ocr', 'includes/derivatives');
     $this->models = "islandora:newspaperPageCModel";
     $relsext = $this->relationships;
-    islandora_paged_content_set_relationship($relsext, ISLANDORA_RELS_EXT_URI, 'hasLanguage', $this->preprocessorParameters['language'], TRUE);
     if (isset($this->preprocessorParameters['generate_ocr'])) {
-      islandora_ocr_set_generating_rels_ext_statements($this, $this->preprocessorParameters['generate_ocr'], $this->preprocessorParameters['generate_ocr'], $this->preprocessorParameters['language']);
+      islandora_ocr_set_generating_rels_ext_statements($this, (bool) $this->preprocessorParameters['generate_ocr'], (bool) $this->preprocessorParameters['generate_ocr'], $this->preprocessorParameters['language']);
     }
     else {
         islandora_ocr_set_generating_rels_ext_statements($this, TRUE, TRUE, $this->preprocessorParameters['language']);
